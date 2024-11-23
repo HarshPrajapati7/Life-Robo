@@ -298,7 +298,8 @@ div.Explore>a>div{
     @media (max-width: 600px) {
         button {
             padding: 10px 20px; 
-            font-size: 0.9em; 
+            font-size: 2em; 
+            font-weight:0.2em;
         }
     }
 
