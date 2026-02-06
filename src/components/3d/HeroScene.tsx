@@ -3,22 +3,22 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
-import { Float, Stars, Trail } from "@react-three/drei";
+import { Float, Stars } from "@react-three/drei";
 
 function Atom() {
   const points = useMemo(() => new THREE.EllipseCurve(0, 0, 10, 10, 0, 2 * Math.PI, false, 0).getPoints(100), []);
   return (
     <group>
-      <Line worldUnits points={points} color="#4285f4" lineWidth={0.3} rotation={[0, 0, 1]} />
-      <Line worldUnits points={points} color="#34a853" lineWidth={0.3} rotation={[0, 0, -1]} />
-      <Line worldUnits points={points} color="#ea4335" lineWidth={0.3} rotation={[0, 0, 0]} />
+      <Line points={points} color="#4285f4" rotation={[0, 0, 1]} />
+      <Line points={points} color="#34a853" rotation={[0, 0, -1]} />
+      <Line points={points} color="#ea4335" rotation={[0, 0, 0]} />
       <Sphere />
     </group>
   );
 }
 
-function Line({ worldUnits, points, color, lineWidth, rotation }: any) {
-    const ref = useRef<any>();
+function Line({ points, color, rotation }: { points: THREE.Vector2[], color: string, rotation: number[] }) {
+    const ref = useRef<THREE.Mesh>(null);
     useFrame((state) => {
         if (ref.current) {
             ref.current.rotation.x = state.clock.getElapsedTime() * 0.2 + (rotation?.[0] || 0);
@@ -28,7 +28,7 @@ function Line({ worldUnits, points, color, lineWidth, rotation }: any) {
     });
 
   const geometry = useMemo(() => {
-    const curve = new THREE.CatmullRomCurve3(points.map((p: any) => new THREE.Vector3(p.x, p.y, 0)));
+    const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(p.x, p.y, 0)));
     return new THREE.TubeGeometry(curve, 64, 0.1, 2, true);
   }, [points]);
 

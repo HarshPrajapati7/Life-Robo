@@ -112,9 +112,9 @@ export default function Rover() {
   );
 }
 
-function Wheel({ position, velocityRef }: any) {
+function Wheel({ position, velocityRef }: { position: [number, number, number], velocityRef: React.MutableRefObject<THREE.Vector3> }) {
     const ref = useRef<THREE.Mesh>(null);
-    useFrame((state, delta) => {
+    useFrame(() => {
         if(ref.current) {
             ref.current.rotation.x += velocityRef.current.z * 5;
         }

@@ -5,7 +5,7 @@ import PlaygroundScene from "@/components/3d/PlaygroundScene";
 import SimulationLoader from "@/components/3d/SimulationLoader";
 import { telemetry, inputState } from "@/components/3d/Rover";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Cpu, Database, ChevronRight, Maximize2, ChevronUp, ChevronDown, ChevronLeft } from "lucide-react";
+import { Cpu, Database, ChevronRight, Maximize2, ChevronUp, ChevronDown, ChevronLeft } from "lucide-react";
 import { useProgress } from "@react-three/drei";
 
 export default function PlaygroundPage() {
@@ -209,7 +209,7 @@ function HUD({ onExit }: { onExit: () => void }) {
   );
 }
 
-function ControlButton({ icon, onStart, onEnd }: { icon: any, onStart: () => void, onEnd: () => void }) {
+function ControlButton({ icon, onStart, onEnd }: { icon: React.ReactNode, onStart: () => void, onEnd: () => void }) {
   return (
     <motion.button
       whileTap={{ scale: 0.9, backgroundColor: "rgba(0, 243, 255, 0.4)" }}
@@ -225,7 +225,7 @@ function ControlButton({ icon, onStart, onEnd }: { icon: any, onStart: () => voi
   );
 }
 
-function DashboardCard({ icon, title, value, status }: any) {
+function DashboardCard({ icon, title, value, status }: { icon: React.ReactNode, title: string, value: string, status: string }) {
   return (
     <div className="glass-panel p-6 border-white/10 hover:border-cyber-primary transition-all cursor-default group backdrop-blur-md bg-white/5">
       <div className="flex items-center gap-3 mb-3 text-cyber-muted">

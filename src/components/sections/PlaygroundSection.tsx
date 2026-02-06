@@ -130,7 +130,7 @@ export default function PlaygroundSection() {
   );
 }
 
-function FeatureItem({ icon, title, desc }: { icon: any, title: string, desc: string }) {
+function FeatureItem({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
   return (
     <div className="flex gap-4 p-4 hover:bg-white/5 transition-colors border-l border-white/5 hover:border-cyber-primary/20">
       <div className="shrink-0">{icon}</div>

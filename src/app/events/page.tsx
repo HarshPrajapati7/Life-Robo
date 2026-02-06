@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useState } from "react";
 import OverlayViewer from "@/components/ui/OverlayViewer";
 
@@ -36,15 +36,17 @@ const events = [
 ];
 
 export default function EventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [selectedEvent, setSelectedEvent] = useState<(typeof events)[0] | null>(null);
 
   const handleNext = () => {
+    if (!selectedEvent) return;
     const currentIndex = events.findIndex(e => e.title === selectedEvent.title);
     const nextIndex = (currentIndex + 1) % events.length;
     setSelectedEvent(events[nextIndex]);
   };
 
   const handlePrev = () => {
+    if (!selectedEvent) return;
     const currentIndex = events.findIndex(e => e.title === selectedEvent.title);
     const prevIndex = (currentIndex - 1 + events.length) % events.length;
     setSelectedEvent(events[prevIndex]);

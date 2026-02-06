@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, Users, Image as ImageIcon, Calendar } from "lucide-react";
+import { Users, Image as ImageIcon, Calendar } from "lucide-react";
 
 export default function AdminPage() {
   const stats = [

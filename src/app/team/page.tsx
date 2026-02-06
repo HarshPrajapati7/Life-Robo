@@ -2,22 +2,25 @@
 
 import { teamData } from "@/lib/team-data";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 import OverlayViewer from "@/components/ui/OverlayViewer";
 
 export default function TeamPage() {
-  const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [selectedMember, setSelectedMember] = useState<typeof teamData[0]["members"][0] | null>(null);
 
   // Flattened member list for navigation
   const allMembers = teamData.flatMap(section => section.members);
 
   const handleNext = () => {
+    if (!selectedMember) return;
     const currentIndex = allMembers.findIndex(m => m.name === selectedMember.name);
     const nextIndex = (currentIndex + 1) % allMembers.length;
     setSelectedMember(allMembers[nextIndex]);
   };
 
   const handlePrev = () => {
+    if (!selectedMember) return;
     const currentIndex = allMembers.findIndex(m => m.name === selectedMember.name);
     const prevIndex = (currentIndex - 1 + allMembers.length) % allMembers.length;
     setSelectedMember(allMembers[prevIndex]);
@@ -33,7 +36,7 @@ export default function TeamPage() {
             details: `A core member of the LIFE ROBO team specializing in ${selectedMember.branch}. Contributing to the advancement of robotics at the University of Lucknow.`,
             type: 'member',
             metadata: {
-                "Department": selectedMember.branch,
+                "Department": selectedMember.branch || "N/A",
                 "Year": selectedMember.year || "N/A",
                 "Status": "Active Duty",
                 "Access Level": "Member"
@@ -97,7 +100,7 @@ export default function TeamPage() {
                               {/* Scanline on image */}
                               <div className="absolute inset-0 scanline opacity-20 pointer-events-none mix-blend-overlay"></div>
                               {member.image ? (
-                                <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                                <Image src={member.image} alt={member.name} width={64} height={64} className="w-full h-full object-cover" />
                               ) : (
                                 <span className="text-2xl font-bold text-white font-display">{member.name.charAt(0)}</span>
                               )}

@@ -3,7 +3,6 @@
 import { Canvas } from "@react-three/fiber";
 import { 
   KeyboardControls, 
-  Stars, 
   Grid, 
   PerspectiveCamera, 
   Environment,
@@ -11,7 +10,6 @@ import {
   ContactShadows
 } from "@react-three/drei";
 import Rover, { telemetry } from "./Rover";
-import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 
@@ -23,7 +21,7 @@ const keyboardMap = [
 ];
 
 function Scene() {
-  const controlsRef = useRef<any>(null);
+  const controlsRef = useRef<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
 
   useFrame((state) => {
     if (controlsRef.current) {

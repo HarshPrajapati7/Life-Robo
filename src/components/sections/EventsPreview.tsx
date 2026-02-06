@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
-import ModernCard from "../ui/ModernCard";
+
 
 export default function EventsPreview() {
   return (
