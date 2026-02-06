@@ -82,15 +82,22 @@ export default function OverlayViewer({ data, onClose, onNext, onPrev }: Overlay
             {/* Image Section */}
             <div className="relative flex-1 bg-cyber-dark flex items-center justify-center overflow-hidden min-h-[300px]">
                 <div className="absolute inset-0 scanline opacity-10 pointer-events-none"></div>
-                <Image
-                    key={data.src} // Add key to trigger animation on source change
-                    src={data.src}
-                    alt={data.title}
-                    width={1200}
-                    height={800}
-                    className="w-full h-full object-contain p-4 md:p-8"
-                    priority
-                />
+                {data.src ? (
+                  <Image
+                      key={data.src} // Add key to trigger animation on source change
+                      src={data.src}
+                      alt={data.title}
+                      fill
+                      className="object-contain p-4 md:p-8"
+                      priority
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full">
+                    <span className="text-8xl font-bold text-white/10 font-display select-none">
+                      {data.title.charAt(0)}
+                    </span>
+                  </div>
+                )}
             </div>
 
             {/* Info Section same as before */}
@@ -145,12 +152,14 @@ export default function OverlayViewer({ data, onClose, onNext, onPrev }: Overlay
                 <div className="flex items-center gap-2 text-[10px] text-cyber-cyan/50 font-tech uppercase mb-4 tracking-tighter">
                    <div className="animate-pulse w-1.5 h-1.5 rounded-full bg-cyber-cyan"></div> System Linked
                 </div>
-                <button 
-                  onClick={() => window.open(data.src, '_blank')}
-                  className="w-full py-3 bg-white/5 border border-white/10 text-white font-tech text-xs uppercase tracking-widest hover:bg-cyber-cyan hover:text-black transition-all flex items-center justify-center gap-2"
-                >
-                    <Maximize2 size={14} /> Full Resolution
-                </button>
+                {data.src && (
+                  <button 
+                    onClick={() => window.open(data.src, '_blank')}
+                    className="w-full py-3 bg-white/5 border border-white/10 text-white font-tech text-xs uppercase tracking-widest hover:bg-cyber-cyan hover:text-black transition-all flex items-center justify-center gap-2"
+                  >
+                      <Maximize2 size={14} /> Full Resolution
+                  </button>
+                )}
               </div>
             </div>
 
