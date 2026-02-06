@@ -1,0 +1,26 @@
+div.row{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: relative;
+}
+img.event{
+    height: 35vw;
+    box-shadow: 0.1vw 0.1vw 1vw black;
+}
+div.text{
+    position: absolute;
+    height: 31vw;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vw;
+    opacity: 0;
+}
+div.text:hover{
+    opacity: 1;
+    transition: .3s ease-in-out;
+}
