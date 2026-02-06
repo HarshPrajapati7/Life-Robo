@@ -12,7 +12,7 @@ import GalleryPreview from "@/components/sections/GalleryPreview";
 import PlaygroundSection from "@/components/sections/PlaygroundSection";
 import { motion, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
-import { ArrowDown, Cpu, Activity, Zap } from "lucide-react";
+import { Cpu, Activity } from "lucide-react";
 
 export default function Home() {
   const { scrollYProgress } = useScroll();

@@ -67,7 +67,7 @@ export default function LoginPage() {
           </button>
           
           <p className="text-center text-xs text-gray-400 font-body mt-4">
-            Don't have an account? <Link href="/contact" className="text-cyber-cyan hover:underline">Request access</Link>
+            Don&apos;t have an account? <Link href="/contact" className="text-cyber-cyan hover:underline">Request access</Link>
           </p>
         </form>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Maximize2, Cpu, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
 

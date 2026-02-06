@@ -2,11 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { 
-  BarChart3, 
   Users, 
-  Settings, 
   LogOut, 
   ShieldAlert, 
   Cpu, 
@@ -151,7 +148,7 @@ export default function DashboardPage() {
                              <div className="space-y-4 font-tech text-[10px] text-gray-500">
                                 <div className="flex gap-4 border-l border-white/10 pl-4 py-1">
                                     <span className="text-cyber-cyan">[01:24:05]</span>
-                                    <span>User member_alpha accessed "RoboEminence" resources</span>
+                                    <span>User member_alpha accessed &quot;RoboEminence&quot; resources</span>
                                 </div>
                                 <div className="flex gap-4 border-l border-white/10 pl-4 py-1">
                                     <span className="text-cyber-pink">[23:12:44]</span>

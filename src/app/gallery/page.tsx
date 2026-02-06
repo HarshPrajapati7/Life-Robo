@@ -27,19 +27,21 @@ export default function GalleryPage() {
   const activeCategory = activeCategoryState[0];
   const setActiveCategory = activeCategoryState[1];
   
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<(typeof allImages)[0] | null>(null);
 
   const filteredImages = activeCategory === 'All' 
     ? allImages 
     : allImages.filter(img => img.category === activeCategory);
 
   const handleNext = () => {
+    if (!selectedImage) return;
     const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
     const nextIndex = (currentIndex + 1) % filteredImages.length;
     setSelectedImage(filteredImages[nextIndex]);
   };
 
   const handlePrev = () => {
+    if (!selectedImage) return;
     const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
     const prevIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
     setSelectedImage(filteredImages[prevIndex]);

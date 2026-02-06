@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Users, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import { teamData } from "@/lib/team-data";
 
 export default function TeamPreview() {
@@ -49,7 +49,7 @@ export default function TeamPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {[...leads, softwareLead].filter(Boolean).map((member: any, idx) => (
+            {[...leads, softwareLead].filter((m): m is NonNullable<typeof m> => !!m).map((member, idx) => (
                 <motion.div
                     key={member.name}
                     initial={{ opacity: 0, y: 30 }}

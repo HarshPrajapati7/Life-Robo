@@ -41,11 +41,11 @@ export default function IDEPage() {
              </div>
               <div className="flex gap-4">
                  <div className="text-cyber-muted/30 text-right select-none">4</div>
-                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-white">robotics.connect(</span><span className="text-[#a5ff90]">"ws://localhost:8080"</span><span className="text-white">)</span></div>
+                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-white">robotics.connect(</span><span className="text-[#a5ff90]">&quot;ws://localhost:8080&quot;</span><span className="text-white">)</span></div>
              </div>
              <div className="flex gap-4">
                  <div className="text-cyber-muted/30 text-right select-none">5</div>
-                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-white">print(</span><span className="text-[#a5ff90]">"System Online"</span><span className="text-white">)</span></div>
+                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-white">print(</span><span className="text-[#a5ff90]">&quot;System Online&quot;</span><span className="text-white">)</span></div>
              </div>
              
              {/* Cursor */}

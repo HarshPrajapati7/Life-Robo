@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Zap, Globe, Cpu } from "lucide-react";
+import { Zap, Globe, Cpu } from "lucide-react";
 
 const features = [
   {
@@ -40,7 +40,7 @@ export default function AboutSection() {
             Engineering the Future
           </h2>
           <p className="mt-6 text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            LIFE ROBO is more than just a club; it's a launchpad for the next generation of engineers. 
+            LIFE ROBO is more than just a club; it&apos;s a launchpad for the next generation of engineers. 
             We bridge the gap between academic curriculum and real-world application through mentorship, 
             competitions, and collaborative projects.
           </p>
