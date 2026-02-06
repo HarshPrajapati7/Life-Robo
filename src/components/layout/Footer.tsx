@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Instagram, Linkedin, Twitter, Cpu, ArrowUpRight } from "lucide-react";
 
@@ -28,12 +29,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           
           {/* Brand Column */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 border border-cyber-cyan p-1 bg-cyber-cyan/10">
-                <Cpu className="w-full h-full text-cyber-cyan" />
+          <div className="space-y-6 group">
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 bg-black border border-white/10 tech-border-corner p-1 overflow-hidden transition-all group-hover:border-cyber-cyan/50">
+                <Image src="/images/logo.png" alt="Life Robo Logo" fill className="object-contain p-1.5" />
               </div>
-              <h3 className="text-2xl font-bold text-white font-display tracking-widest">
+              <h3 className="text-2xl font-bold text-white font-display tracking-widest leading-none transition-colors group-hover:text-neon-cyan">
                 LIFE ROBO
               </h3>
             </div>

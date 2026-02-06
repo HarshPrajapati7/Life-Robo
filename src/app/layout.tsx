@@ -25,6 +25,10 @@ const shareTechMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   title: "LIFE ROBO",
   description: "Learn and Innovation in the Field of Engineering - Robotics Club",
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  }
 };
 
 import Navbar from "@/components/layout/Navbar";
