@@ -58,10 +58,22 @@ function Sphere() {
 }
 
 
+function SceneReadyTracker() {
+  const rendered = useRef(false);
+  useFrame(() => {
+    if (!rendered.current) {
+      rendered.current = true;
+      window.dispatchEvent(new CustomEvent("3d-ready"));
+    }
+  });
+  return null;
+}
+
 export default function HeroScene() {
   return (
     <div className="absolute inset-0 -z-10 h-full w-full">
       <Canvas camera={{ position: [0, 0, 15], fov: 45 }} dpr={[1, 2]}>
+        <SceneReadyTracker />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#4285f4" />
         <pointLight position={[-10, -10, -10]} intensity={1} color="#ea4335" />

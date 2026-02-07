@@ -1,9 +1,5 @@
 "use client";
 
-
-
-"use client";
-
 import HeroScene from "@/components/3d/HeroScene";
 import AboutSection from "@/components/sections/AboutSection";
 import TeamPreview from "@/components/sections/TeamPreview";
@@ -23,15 +19,15 @@ export default function Home() {
   });
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-x-hidden">
         {/* Progress Bar with Glitch Color */}
         <motion.div
-            className="fixed top-0 left-0 right-0 h-1 bg-cyber-cyan origin-left z-50 mix-blend-exclusion"
+            className="fixed top-0 left-0 right-0 h-1 bg-cyber-cyan origin-left z-50"
             style={{ scaleX }}
         />
 
       {/* 3D Background - Fixed */}
-      <div className="fixed inset-0 z-0 opacity-40 grayscale-[50%] contrast-125">
+      <div className="fixed inset-0 z-0 opacity-40 grayscale-[50%] contrast-125 pointer-events-none">
           <HeroScene />
       </div>
       
@@ -71,8 +67,6 @@ export default function Home() {
           className="mt-12 text-lg md:text-xl text-gray-400 max-w-2xl font-light tracking-wide font-body border-l-2 border-cyber-cyan pl-6 text-left"
         >
           <span className="text-cyber-cyan font-bold">L.I.F.E.</span> — Learn and Innovation in the Field of Engineering.
-          <br/>
-          A community of students passionate about robotics, automation, and building the future.
         </motion.p>
         
         <motion.div 
@@ -109,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* Sections Wrapper */}
-      <div className="relative z-10 bg-background/90 backdrop-blur-md border-t border-cyber-cyan/20">
+      <div className="relative z-10 bg-background/60 backdrop-blur-xl border-t border-cyber-cyan/20">
           
           {/* Decorative Divider */}
           <div className="w-full h-2 bg-cyber-cyan/10 flex items-center justify-between px-4 overflow-hidden">
@@ -128,16 +122,19 @@ export default function Home() {
            <div className="h-px w-full bg-border-color my-0" />
           <GalleryPreview />
           
-          <section className="py-32 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-cyber-cyan/5 pointer-events-none"></div>
-              <h2 className="text-4xl md:text-6xl font-bold text-white font-display mb-8 uppercase">
-                  Ready to Start?
-              </h2>
-               <Link href="/login">
-                <button className="px-16 py-6 border-2 border-cyber-cyan text-cyber-cyan font-bold rounded-none hover:bg-cyber-cyan hover:text-black transition-all text-2xl uppercase tracking-widest font-display">
-                    Member Login
-                </button>
-             </Link>
+          <section className="py-24 text-center relative border-t border-white/5">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                  <Link href="/login">
+                    <button className="px-10 py-4 border border-cyber-cyan text-cyber-cyan font-tech text-sm uppercase tracking-[0.2em] hover:bg-cyber-cyan hover:text-black transition-all">
+                        Member Login
+                    </button>
+                 </Link>
+              </motion.div>
           </section>
       </div>
     </main>

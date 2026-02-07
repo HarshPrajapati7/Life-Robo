@@ -13,7 +13,7 @@ const previewImages = [
 
 export default function GalleryPreview() {
   return (
-    <section className="py-24 bg-black relative">
+    <section className="py-24 bg-transparent relative">
        <div className="max-w-7xl mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center mb-12">
                 <div className="text-center md:text-left mb-6 md:mb-0">

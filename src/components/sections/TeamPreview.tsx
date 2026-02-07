@@ -14,7 +14,7 @@ export default function TeamPreview() {
   const softwareLead = teamData.find(s => s.title.includes("Software"))?.members.find(m => m.role.includes("Lead"));
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-transparent">
        {/* Background */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-cyber-primary/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute right-0 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-cyber-cyan/20 to-transparent"></div>
