@@ -11,7 +11,7 @@ export default function ContactPage() {
                 Contact <span className="text-cyber-cyan">Us</span>
             </h1>
             <p className="text-gray-500 font-light text-sm max-w-sm mx-auto uppercase tracking-widest font-tech">
-                We'd love to hear from you
+                We&apos;d love to hear from you
             </p>
         </div>
 

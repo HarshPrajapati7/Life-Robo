@@ -157,11 +157,10 @@ export default function Rover({
       const dist = Math.sqrt(dx * dx + dz * dz);
       const minDist = ROVER_RADIUS + rock.radius;
 
-      if (dist < minDist) {
-        // Push rover out of rock
-        const overlap = minDist - dist;
-        const nx = dx / (dist || 1);
-        const nz = dz / (dist || 1);
+        if (dist < minDist) {
+          // Push rover out of rock
+          const nx = dx / (dist || 1);
+          const nz = dz / (dist || 1);
         p.posX = rock.x + nx * minDist;
         p.posZ = rock.z + nz * minDist;
         // Kill speed on impact
@@ -353,7 +352,7 @@ export default function Rover({
       </group>
 
       {/* Dust particle trail */}
-      <DustTrail color={color} speedRef={phys} simulationId={simulationId} />
+      <DustTrail speedRef={phys} simulationId={simulationId} />
     </group>
   );
 }
@@ -364,11 +363,9 @@ export default function Rover({
 const DUST_COUNT = 60;
 
 function DustTrail({
-  color,
   speedRef,
   simulationId,
 }: {
-  color: string;
   speedRef: React.MutableRefObject<{ speed: number }>;
   simulationId: SimulationType;
 }) {
