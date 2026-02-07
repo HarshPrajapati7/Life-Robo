@@ -4,89 +4,94 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
-// Actual activity images for gallery preview
-const previewImages = [
-    '/images/gallery/workshops/pic (1).jpg', 
-    '/images/gallery/lecture-series/pic (3).jpg',
-    '/images/gallery/workshops/pic (5).jpg'
+const galleryItems = [
+    {
+        id: 1,
+        title: "Robotics Workshop",
+        category: "Live Session",
+        image: '/images/gallery/workshops/pic (1).jpg'
+    },
+    {
+        id: 2,
+        title: "Animation Series",
+        category: "Lecture",
+        image: '/images/gallery/lecture-series/pic (3).jpg'
+    },
+    {
+        id: 3,
+        title: "Bot Integration",
+        category: "Team Build",
+        image: '/images/gallery/workshops/pic (5).jpg'
+    }
 ];
 
 export default function GalleryPreview() {
-  return (
-    <section className="py-24 bg-black relative">
-       <div className="max-w-7xl mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-                <div className="text-center md:text-left mb-6 md:mb-0">
-                    <span className="text-cyber-cyan font-tech text-xs uppercase tracking-widest">Digital Snapshot</span>
-                    <h2 className="text-4xl md:text-5xl font-bold mt-2 font-display uppercase tracking-tighter">Club <span className="text-cyber-cyan">Gallery</span></h2>
-                    <p className="text-gray-500 mt-2 font-body">Capturing the engineering spirit in action.</p>
-                </div>
-                <Link href="/gallery">
-                    <button className="px-8 py-3 bg-white/5 hover:bg-cyber-cyan hover:text-black transition-all text-xs font-bold font-tech uppercase tracking-widest border border-white/10 group flex items-center gap-2">
-                        View Database <div className="w-1 h-3 bg-cyber-cyan group-hover:bg-black" />
-                    </button>
-                </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[500px]">
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+    return (
+        <section className="py-24 bg-black relative">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="md:col-span-2 relative h-full rounded-sm overflow-hidden group border border-white/5"
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center mb-16"
                 >
-                    <Image 
-                        src={previewImages[0]} 
-                        alt="Robotics Workshop"
-                        fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex items-end p-8">
-                        <div className="space-y-1">
-                            <span className="text-cyber-cyan font-tech text-[10px] uppercase tracking-[0.2em]">Live Session</span>
-                            <h3 className="text-2xl font-bold text-white font-display uppercase">Hands-on Robotics Workshop</h3>
-                        </div>
-                    </div>
+                    <span className="text-cyber-cyan font-tech text-xs tracking-widest uppercase mb-2 block tracking-[0.4em]">Visual Archive</span>
+                    <h2 className="text-4xl md:text-6xl font-black text-white font-display uppercase tracking-tight">
+                        FIELD <span className="text-cyber-cyan">DATA</span>
+                    </h2>
                 </motion.div>
-                
-                <div className="grid grid-rows-2 gap-6 h-full">
-                     <motion.div 
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="relative h-full rounded-sm overflow-hidden group border border-white/5"
-                    >
-                         <Image 
-                            src={previewImages[1]} 
-                            alt="Lecture Series"
-                            fill
-                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex items-end p-6">
-                            <h3 className="text-lg font-bold text-white font-display uppercase">Animation Series</h3>
-                        </div>
-                    </motion.div>
-                    <motion.div 
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="relative h-full rounded-sm overflow-hidden group border border-white/5"
-                    >
-                         <Image 
-                            src={previewImages[2]} 
-                            alt="Team Build"
-                            fill
-                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex items-end p-6">
-                            <h3 className="text-lg font-bold text-white font-display uppercase">Bot Integration</h3>
-                        </div>
-                    </motion.div>
-                </div>
+
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.1,
+                                delayChildren: 0.1
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                >
+                    {galleryItems.map((item) => (
+                        <motion.div
+                            key={item.id}
+                            variants={{
+                                hidden: { opacity: 0, y: 40, scale: 0.95, rotateX: 10, rotateY: -10 },
+                                show: { opacity: 1, y: 0, scale: 1, rotateX: 0, rotateY: 0 }
+                            }}
+                            transition={{
+                                duration: 1.2,
+                                ease: [0.16, 1, 0.3, 1]
+                            }}
+                            className="group relative aspect-square overflow-hidden rounded-xl border border-white/5 hover:border-cyber-cyan/40 bg-[#0a0a0a] transition-all duration-500"
+                        >
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                fill
+                                className="object-cover transition-all duration-700 md:grayscale md:group-hover:grayscale-0 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+
+                            <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                <span className="text-cyber-cyan font-tech text-[10px] uppercase tracking-widest mb-1 block">{item.category}</span>
+                                <h3 className="text-xl md:text-2xl font-bold text-white font-display mb-2">{item.title}</h3>
+
+                                <div className="w-8 h-1 bg-cyber-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                            </div>
+
+                            {/* Holographic overlay on hover */}
+                            <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-cyber-cyan/10 to-transparent mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </motion.div>
+                    ))}
+                </motion.div>
             </div>
-       </div>
-    </section>
-  );
+        </section>
+    );
 }
