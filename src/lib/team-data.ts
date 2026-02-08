@@ -10,6 +10,7 @@ export type TeamMember = {
     year?: string;
     branch?: string;
     image?: string;
+    quote?: string;
 };
 
 export type TeamSection = {

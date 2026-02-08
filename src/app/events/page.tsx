@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar } from "lucide-react";
+
 import { useState } from "react";
 import OverlayViewer from "@/components/ui/OverlayViewer";
+import EventCard from "@/components/ui/EventCard";
 
 const events = [
   {
@@ -95,79 +96,12 @@ export default function EventsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.2 }}
-                    className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center group`}
                 >
-                    {/* Image Section */}
-                    {/* Using a color map for dynamic tailwind classes */}
-                    {(() => {
-                        const colorMap = {
-                            'cyber-cyan': {
-                                border: 'border-cyber-cyan',
-                                text: 'text-cyber-cyan',
-                                bg: 'bg-cyber-cyan',
-                                bg20: 'bg-cyber-cyan/20'
-                            },
-                            'cyber-pink': {
-                                border: 'border-cyber-pink',
-                                text: 'text-cyber-pink',
-                                bg: 'bg-cyber-pink',
-                                bg20: 'bg-cyber-pink/20'
-                            },
-                            'cyber-yellow': {
-                                border: 'border-cyber-yellow',
-                                text: 'text-cyber-yellow',
-                                bg: 'bg-cyber-yellow',
-                                bg20: 'bg-cyber-yellow/20'
-                            }
-                        };
-                        const colors = colorMap[event.color as keyof typeof colorMap] || colorMap['cyber-cyan'];
-
-                        return (
-                            <>
-                            <div className="w-full lg:w-1/2 relative">
-                                <div className={`absolute -inset-4 ${colors.bg20} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                                <div className="relative h-[300px] md:h-[400px] w-full border border-white/10 glass-panel overflow-hidden">
-                                     <div className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${event.image}')` }} />
-                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                                </div>
-                                
-                                 <div className={`absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 ${colors.border}`} />
-                                 <div className={`absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 ${colors.border}`} />
-                            </div>
-
-                            <div className="w-full lg:w-1/2 space-y-6">
-                                <div className="flex items-center gap-4">
-                                     <span className={`px-3 py-1 rounded-sm border ${colors.border} ${colors.text} text-xs font-tech font-bold uppercase tracking-wider`}>
-                                         {event.category}
-                                     </span>
-                                     <span className="text-gray-500 text-xs font-tech uppercase tracking-wider flex items-center gap-2">
-                                         <Calendar size={12} /> {event.date}
-                                     </span>
-                                </div>
-                                
-                                <h2 className="text-4xl font-bold text-white font-display uppercase tracking-wide group-hover:text-cyber-cyan transition-colors">
-                                    {event.title}
-                                </h2>
-                                
-                                <p className="text-gray-400 text-lg leading-relaxed border-l-2 border-white/10 pl-6 font-body">
-                                    {event.description}
-                                </p>
-                                
-                                <div className="pt-4 flex items-center gap-6">
-                                    <button 
-                                        onClick={() => setSelectedEvent(event)}
-                                        className={`px-8 py-3 bg-transparent border border-white/20 text-white hover:${colors.bg} hover:text-black hover:${colors.border} transition-all font-display font-bold uppercase tracking-widest text-sm`}
-                                    >
-                                        View Details
-                                    </button>
-                                     <span className={`font-tech text-xs ${colors.text} uppercase tracking-widest`}>
-                                         {event.status}
-                                     </span>
-                                </div>
-                            </div>
-                            </>
-                        );
-                    })()}
+                    <EventCard 
+                        event={event} 
+                        index={index} 
+                        onViewDetails={() => setSelectedEvent(event)}
+                    />
                 </motion.div>
             ))}
         </div>

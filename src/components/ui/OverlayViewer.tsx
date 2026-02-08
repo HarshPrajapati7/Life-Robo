@@ -88,6 +88,7 @@ export default function OverlayViewer({ data, onClose, onNext, onPrev }: Overlay
                       src={data.src}
                       alt={data.title}
                       fill
+                      sizes="100vw"
                       className="object-contain p-4 md:p-8"
                       priority
                   />

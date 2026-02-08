@@ -9,47 +9,64 @@ export default function Preloader() {
 
   useEffect(() => {
     if (isLoading) {
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = '0';
     } else {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     }
 
     return () => {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     };
   }, [isLoading]);
 
   useEffect(() => {
-    let isWindowLoaded = false;
-    let isSceneReady = false;
+    let windowLoaded = false;
+    let sceneReady = false;
 
-    const checkReady = () => {
-        if (isWindowLoaded && isSceneReady) {
-            setTimeout(() => setIsLoading(false), 800);
-        }
+    const tryFinish = () => {
+      if (windowLoaded && sceneReady) {
+        setTimeout(() => setIsLoading(false), 200);
+      }
     };
 
     const handleWindowLoad = () => {
-      isWindowLoaded = true;
-      checkReady();
+      windowLoaded = true;
+      // If no 3D scene fires within 500ms after load, proceed anyway
+      setTimeout(() => {
+        sceneReady = true;
+        tryFinish();
+      }, 500);
+      tryFinish();
     };
 
     const handleSceneReady = () => {
-        isSceneReady = true;
-        checkReady();
+      sceneReady = true;
+      tryFinish();
     };
-
-    const timeout = setTimeout(() => {
-        isSceneReady = true;
-        checkReady();
-    }, 5000);
-
-    window.addEventListener('load', handleWindowLoad);
-    window.addEventListener('3d-ready', handleSceneReady);
 
     if (document.readyState === 'complete') {
       handleWindowLoad();
     }
+
+    window.addEventListener('load', handleWindowLoad);
+    window.addEventListener('3d-ready', handleSceneReady);
+
+    // Hard fallback
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
 
     return () => {
       window.removeEventListener('load', handleWindowLoad);

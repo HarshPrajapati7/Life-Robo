@@ -10,7 +10,7 @@ export default function MainContentWrapper({ children }: { children: React.React
   return (
     <div className={clsx(
         "flex-grow relative",
-        !isSimulationPage && "pt-16" // Only add padding for navbar if not on sim page
+        !isSimulationPage && "pt-20" // Match navbar height (h-20 = 5rem = 80px)
     )}>
       {children}
     </div>

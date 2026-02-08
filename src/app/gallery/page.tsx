@@ -1,9 +1,10 @@
 "use client";
 
-import Image from 'next/image';
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OverlayViewer from '@/components/ui/OverlayViewer';
+import GalleryCard from "@/components/ui/GalleryCard";
 
 // Generate Image Data
 const lectureImages = Array.from({ length: 17 }).map((_, i) => ({
@@ -107,22 +108,12 @@ export default function GalleryPage() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
                     key={img.id} 
-                    onClick={() => setSelectedImage(img)}
-                    className="break-inside-avoid relative group overflow-hidden border border-white/10 hover:border-cyber-cyan/50 transition-colors cursor-pointer"
+                    className="break-inside-avoid mb-6"
                 >
-                    {/* Tech Corners */}
-                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyber-cyan opacity-0 group-hover:opacity-100 transition-opacity z-20"></div>
-
-                    <Image
-                    src={img.src}
-                    alt={`${img.category} Image`}
-                    width={500}
-                    height={300}
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                    <GalleryCard 
+                        item={img}
+                        onClick={() => setSelectedImage(img)}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 z-10">
-                         <span className="text-cyber-cyan font-tech text-xs uppercase tracking-wider">{img.category}</span>
-                    </div>
                 </motion.div>
                 ))}
             </AnimatePresence>

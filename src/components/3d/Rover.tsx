@@ -71,6 +71,15 @@ const PHYSICS: Record<
     heightSmooth: 0.18,
     tiltSmooth: 0.08,
   },
+  humanoid: {
+    maxSpeed: 0,
+    acceleration: 0,
+    friction: 0,
+    turnSpeed: 0,
+    gravity: 9.81,
+    heightSmooth: 0,
+    tiltSmooth: 0,
+  },
 };
 
 const ROVER_HALF_HEIGHT = 0.55;
@@ -225,95 +234,111 @@ export default function Rover({
     telemetry.z = p.posZ;
     telemetry.rotation = p.yaw;
     telemetry.speed = Math.abs(p.speed) * 3.6;
+    telemetry.speed = Math.abs(p.speed) * 3.6;
   });
 
-  return (
-    <group ref={groupRef}>
+   return (
+     <group ref={groupRef}>
+        <RoverModel color={color} wheelRef={phys} />
+        <DustTrail speedRef={phys} simulationId={simulationId} />
+     </group>
+   );
+ }
+ 
+ export function RoverModel({ 
+   color, 
+   wheelRef 
+ }: { 
+   color: string; 
+   wheelRef?: React.MutableRefObject<{ wheelSpin: number; speed: number }>;
+ }) {
+   return (
+     <group>
       {/* Chassis */}
       <mesh position={[0, 0, 0]} castShadow>
         <boxGeometry args={[1.6, 0.4, 2.2]} />
         <meshStandardMaterial color="#1e293b" metalness={0.6} roughness={0.4} />
       </mesh>
-
-      {/* Top panel detail */}
-      <mesh position={[0, 0.21, 0.1]} castShadow>
-        <boxGeometry args={[1.2, 0.05, 1.4]} />
-        <meshStandardMaterial color="#334155" metalness={0.7} roughness={0.3} />
-      </mesh>
-
-      {/* Side armor panels */}
-      <mesh position={[-0.82, 0.05, 0]} castShadow>
-        <boxGeometry args={[0.04, 0.3, 1.8]} />
-        <meshStandardMaterial color="#475569" metalness={0.5} roughness={0.5} />
-      </mesh>
-      <mesh position={[0.82, 0.05, 0]} castShadow>
-        <boxGeometry args={[0.04, 0.3, 1.8]} />
-        <meshStandardMaterial color="#475569" metalness={0.5} roughness={0.5} />
-      </mesh>
-
-      {/* Glow shell */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[1.65, 0.35, 2.15]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={0.8}
-          transparent
-          opacity={0.08}
-        />
-      </mesh>
-
-      {/* Front bumper */}
-      <mesh position={[0, -0.05, -1.15]} castShadow>
-        <boxGeometry args={[1.4, 0.2, 0.1]} />
-        <meshStandardMaterial color="#334155" metalness={0.6} roughness={0.4} />
-      </mesh>
-
-      {/* Headlights */}
-      <mesh position={[-0.5, 0.05, -1.15]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
-      </mesh>
-      <mesh position={[0.5, 0.05, -1.15]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
-      </mesh>
-      <spotLight
-        position={[-0.5, 0.05, -1.2]}
-        target-position={[-0.5, -0.5, -6]}
-        angle={0.5}
-        penumbra={0.8}
-        intensity={8}
-        distance={25}
-        color="#eeeeff"
-        castShadow={false}
-      />
-      <spotLight
-        position={[0.5, 0.05, -1.2]}
-        target-position={[0.5, -0.5, -6]}
-        angle={0.5}
-        penumbra={0.8}
-        intensity={8}
-        distance={25}
-        color="#eeeeff"
-        castShadow={false}
-      />
-
-      {/* Tail lights */}
-      <mesh position={[-0.55, 0.05, 1.12]}>
-        <boxGeometry args={[0.2, 0.1, 0.04]} />
-        <meshStandardMaterial color="#ff2222" emissive="#ff0000" emissiveIntensity={2} />
-      </mesh>
-      <mesh position={[0.55, 0.05, 1.12]}>
-        <boxGeometry args={[0.2, 0.1, 0.04]} />
-        <meshStandardMaterial color="#ff2222" emissive="#ff0000" emissiveIntensity={2} />
-      </mesh>
-
-      {/* Wheels with suspension */}
-      <WheelVisual position={[-1.0, -0.1, -1.0]} spinRef={phys} />
-      <WheelVisual position={[1.0, -0.1, -1.0]} spinRef={phys} />
-      <WheelVisual position={[-1.0, -0.1, 1.0]} spinRef={phys} />
-      <WheelVisual position={[1.0, -0.1, 1.0]} spinRef={phys} />
+ 
+       {/* Top panel detail */}
+       <mesh position={[0, 0.21, 0.1]} castShadow>
+         <boxGeometry args={[1.2, 0.05, 1.4]} />
+         <meshStandardMaterial color="#334155" metalness={0.7} roughness={0.3} />
+       </mesh>
+ 
+       {/* Side armor panels */}
+       <mesh position={[-0.82, 0.05, 0]} castShadow>
+         <boxGeometry args={[0.04, 0.3, 1.8]} />
+         <meshStandardMaterial color="#475569" metalness={0.5} roughness={0.5} />
+       </mesh>
+       <mesh position={[0.82, 0.05, 0]} castShadow>
+         <boxGeometry args={[0.04, 0.3, 1.8]} />
+         <meshStandardMaterial color="#475569" metalness={0.5} roughness={0.5} />
+       </mesh>
+ 
+       {/* Glow shell */}
+       <mesh position={[0, 0, 0]}>
+         <boxGeometry args={[1.65, 0.35, 2.15]} />
+         <meshStandardMaterial
+           color={color}
+           emissive={color}
+           emissiveIntensity={0.8}
+           transparent
+           opacity={0.08}
+         />
+       </mesh>
+ 
+       {/* Front bumper */}
+       <mesh position={[0, -0.05, -1.15]} castShadow>
+         <boxGeometry args={[1.4, 0.2, 0.1]} />
+         <meshStandardMaterial color="#334155" metalness={0.6} roughness={0.4} />
+       </mesh>
+ 
+       {/* Headlights */}
+       <mesh position={[-0.5, 0.05, -1.15]}>
+         <sphereGeometry args={[0.1, 16, 16]} />
+         <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
+       </mesh>
+       <mesh position={[0.5, 0.05, -1.15]}>
+         <sphereGeometry args={[0.1, 16, 16]} />
+         <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
+       </mesh>
+       <spotLight
+         position={[-0.5, 0.05, -1.2]}
+         target-position={[-0.5, -0.5, -6]}
+         angle={0.5}
+         penumbra={0.8}
+         intensity={8}
+         distance={25}
+         color="#eeeeff"
+         castShadow={false}
+       />
+       <spotLight
+         position={[0.5, 0.05, -1.2]}
+         target-position={[0.5, -0.5, -6]}
+         angle={0.5}
+         penumbra={0.8}
+         intensity={8}
+         distance={25}
+         color="#eeeeff"
+         castShadow={false}
+       />
+ 
+       {/* Tail lights */}
+       <mesh position={[-0.55, 0.05, 1.12]}>
+         <boxGeometry args={[0.2, 0.1, 0.04]} />
+         <meshStandardMaterial color="#ff2222" emissive="#ff0000" emissiveIntensity={2} />
+       </mesh>
+       <mesh position={[0.55, 0.05, 1.12]}>
+         <boxGeometry args={[0.2, 0.1, 0.04]} />
+         <meshStandardMaterial color="#ff2222" emissive="#ff0000" emissiveIntensity={2} />
+       </mesh>
+ 
+       {/* Wheels with suspension */}
+       <WheelVisual position={[-1.0, -0.1, -1.0]} spinRef={wheelRef} />
+       <WheelVisual position={[1.0, -0.1, -1.0]} spinRef={wheelRef} />
+       <WheelVisual position={[-1.0, -0.1, 1.0]} spinRef={wheelRef} />
+       <WheelVisual position={[1.0, -0.1, 1.0]} spinRef={wheelRef} />
 
       {/* Sensor Mast */}
       <group position={[0, 0.2, -0.6]}>
@@ -350,9 +375,6 @@ export default function Rover({
           <meshStandardMaterial color="#2563eb" emissive="#1d4ed8" emissiveIntensity={0.3} transparent opacity={0.6} />
         </mesh>
       </group>
-
-      {/* Dust particle trail */}
-      <DustTrail speedRef={phys} simulationId={simulationId} />
     </group>
   );
 }
@@ -479,18 +501,24 @@ function WheelVisual({
   spinRef,
 }: {
   position: [number, number, number];
-  spinRef: React.MutableRefObject<{ wheelSpin: number; speed: number }>;
+  spinRef?: React.MutableRefObject<{ wheelSpin: number; speed: number }>;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
-    if (meshRef.current) meshRef.current.rotation.x = spinRef.current.wheelSpin;
-    // Subtle suspension bounce based on speed + time
-    if (groupRef.current) {
-      const bob = Math.sin(state.clock.elapsedTime * 12 + position[0] * 3 + position[2] * 5)
-        * Math.min(Math.abs(spinRef.current.speed) * 0.004, 0.03);
-      groupRef.current.position.y = position[1] + bob;
+    if (spinRef) {
+        if (meshRef.current) meshRef.current.rotation.x = spinRef.current.wheelSpin;
+        if (groupRef.current) {
+        const bob = Math.sin(state.clock.elapsedTime * 12 + position[0] * 3 + position[2] * 5)
+            * Math.min(Math.abs(spinRef.current.speed) * 0.004, 0.03);
+        groupRef.current.position.y = position[1] + bob;
+        }
+    } else {
+        // Idle bob
+        if (groupRef.current) {
+            groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.01;
+        }
     }
   });
 

@@ -1,4 +1,4 @@
-export type SimulationType = 'mars' | 'moon' | 'earth';
+export type SimulationType = 'mars' | 'moon' | 'earth' | 'humanoid';
 
 export interface MissionObjective {
     id: string;
@@ -12,7 +12,7 @@ export interface Simulation {
     missionName: string;
     description: string;
     difficulty: 'Moderate' | 'Critical';
-    environment: 'sunset' | 'night' | 'park';
+    environment: 'sunset' | 'night' | 'park' | 'studio';
     color: string;
     accent: string;
     payload: string[];
@@ -71,6 +71,23 @@ export const SIMULATIONS: Simulation[] = [
         missions: [
             { id: 'l1', task: 'Reach the target area', completed: false },
             { id: 'l2', task: 'Avoid the deep holes', completed: false },
+        ]
+    },
+    {
+        id: 'humanoid',
+        name: 'Android Lab',
+        missionName: 'HUMANOID CALIBRATION',
+        description: 'Bipedal locomotion testing with real-time inverse kinematics and joint calibration.',
+        difficulty: 'Critical',
+        environment: 'studio',
+        color: '#f472b6',
+        accent: 'pink',
+        payload: ['Gyroscope', 'Servo Motors', 'Neural Net'],
+        startPos: { x: 0, z: 0 },
+        targetPos: { x: 0, z: 0 },
+        missions: [
+            { id: 'h1', task: 'Calibrate joint motors', completed: false },
+            { id: 'h2', task: 'Perform stress test', completed: false },
         ]
     }
 ];

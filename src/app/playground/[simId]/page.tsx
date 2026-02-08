@@ -48,15 +48,33 @@ export default function SimulationPage() {
     }
   }, [progress, total, isSceneReady]);
 
+  const [currentGesture, setCurrentGesture] = useState("Idle");
+
+  useEffect(() => {
+    if (sim.id !== 'humanoid') return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        const key = parseInt(e.key);
+        if (!isNaN(key) && key > 0 && key <= GESTURES.length) {
+            setCurrentGesture(GESTURES[key - 1]);
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [sim.id]);
+
   return (
     <div className="absolute inset-0 z-[100] bg-[#02040a] font-tech overflow-hidden">
         <div className="h-full w-full relative">
-            <PlaygroundScene simulationId={sim.id} />
+            <PlaygroundScene simulationId={sim.id} gesture={currentGesture} />
             
             {!loading && (
                 <HUD 
                     onExit={() => router.push("/playground", { scroll: false })} 
                     sim={sim} 
+                    currentGesture={currentGesture}
+                    setGesture={setCurrentGesture}
                 />
             )}
 
@@ -78,7 +96,32 @@ export default function SimulationPage() {
   );
 }
 
-const HUD = ({ onExit, sim }: { onExit: () => void, sim: Simulation }) => {
+const GESTURES = ["Idle", "Hi", "Dance", "ThumbsUp", "Punch", "Running", "Jump"];
+
+const HumanoidHUD = ({ currentGesture, setGesture }: { currentGesture: string, setGesture: (g: string) => void }) => (
+    <div className="absolute bottom-8 left-0 right-0 px-4 md:bottom-12 md:px-0 pointer-events-none flex justify-center">
+        <div className="pointer-events-auto max-w-full overflow-x-auto no-scrollbar">
+            <div className="flex gap-2 p-2 bg-black/80 md:bg-black/60 backdrop-blur-md rounded-xl md:rounded-full border border-white/10 shadow-xl min-w-max">
+              {GESTURES.map((g, index) => (
+                <button
+                  key={g}
+                  onClick={() => setGesture(g)}
+                  className={`px-3 py-2 md:px-4 md:py-2 rounded-lg md:rounded-full text-[10px] md:text-xs font-bold uppercase transition-all tracking-wider whitespace-nowrap ${
+                    currentGesture === g 
+                      ? "bg-cyber-primary text-black shadow-[0_0_15px_rgba(0,243,255,0.4)] scale-105" 
+                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
+                  }`}
+                >
+                  <span className="opacity-50 mr-1.5 hidden md:inline-block">[{index + 1}]</span>
+                  {g}
+                </button>
+              ))}
+            </div>
+        </div>
+    </div>
+);
+
+const HUD = ({ onExit, sim, currentGesture, setGesture }: { onExit: () => void, sim: Simulation, currentGesture?: string, setGesture?: (g: string) => void }) => {
   const xRef = useRef<HTMLSpanElement>(null);
   const yRef = useRef<HTMLSpanElement>(null);
   const zRef = useRef<HTMLSpanElement>(null);
@@ -188,6 +231,7 @@ const HUD = ({ onExit, sim }: { onExit: () => void, sim: Simulation }) => {
           </div>
       </div>
 
+      {sim.id === 'humanoid' ? <HumanoidHUD currentGesture={currentGesture || 'Idle'} setGesture={setGesture || (() => {})} /> : (
       <div className="absolute top-20 right-6 pointer-events-none">
           <div className="glass-panel px-4 py-2 bg-black/60 border border-white/10 flex items-center gap-4 backdrop-blur-md rounded-md shadow-lg">
                <div className="flex flex-col items-center min-w-[30px]">
@@ -211,9 +255,12 @@ const HUD = ({ onExit, sim }: { onExit: () => void, sim: Simulation }) => {
                </div>
           </div>
       </div>
+      )}
       
-      <MiniMap sim={sim} />
+      {sim.id !== 'humanoid' && <MiniMap sim={sim} />} 
 
+
+      {sim.id !== 'humanoid' && (
       <div className="absolute bottom-12 left-12 pointer-events-auto scale-90 md:scale-100 origin-bottom-left md:hidden">
           <div className="flex flex-col items-center gap-2">
             <ControlButton 
@@ -240,9 +287,11 @@ const HUD = ({ onExit, sim }: { onExit: () => void, sim: Simulation }) => {
             </div>
           </div>
       </div>
+      )}
     </>
   );
 }
+
 
 function MiniMap({ sim }: { sim: Simulation }) {
   const roverRef = useRef<HTMLDivElement>(null);

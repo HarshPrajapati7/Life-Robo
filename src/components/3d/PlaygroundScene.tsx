@@ -388,9 +388,22 @@ function SceneReadyTracker() {
   return null;
 }
 
-export default function PlaygroundScene({ simulationId = 'mars' }: { simulationId?: SimulationType }) {
+import HumanoidScene from "./HumanoidScene";
+
+export default function PlaygroundScene({ simulationId = 'mars', gesture }: { simulationId?: SimulationType, gesture?: string }) {
   const [dpr, setDpr] = useState(1.5);
   
+  if (simulationId === 'humanoid') {
+    return (
+      <div className="w-full h-full">
+         <Canvas shadows dpr={dpr} gl={{ antialias: true }} camera={{ position: [0, 8, 20], fov: 40 }}>
+            <HumanoidScene gesture={gesture} />
+            <OrbitControls minDistance={2} maxDistance={30} enablePan={false} maxPolarAngle={Math.PI / 2} />
+         </Canvas>
+      </div>
+    );
+  }
+
   // Custom gravity no longer needed — handled in Rover.tsx per-planet
 
   return (
