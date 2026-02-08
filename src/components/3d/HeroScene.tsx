@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, GroupProps } from "@react-three/fiber";
 import { useRef, useMemo, Suspense } from "react";
 import * as THREE from "three";
 import { Float, Line, Sphere, Stars, Sparkles } from "@react-three/drei";
@@ -16,7 +16,7 @@ function SceneReadyTracker() {
   return null;
 }
 
-function Atom(props: any) {
+function Atom(props: GroupProps) {
   const points = useMemo(() => new THREE.EllipseCurve(0, 0, 3, 1.15, 0, 2 * Math.PI, false, 0).getPoints(100), []);
   const points3d = useMemo(() => points.map(p => new THREE.Vector3(p.x, p.y, 0)), [points]);
 
@@ -36,7 +36,12 @@ function Atom(props: any) {
   );
 }
 
-function Electron({ radius = 2.75, speed = 6, ...props }) {
+interface ElectronProps extends GroupProps {
+  radius?: number;
+  speed?: number;
+}
+
+function Electron({ radius = 2.75, speed = 6, ...props }: ElectronProps) {
   const ref = useRef<THREE.Mesh>(null);
   useFrame((state) => {
     const t = state.clock.getElapsedTime() * speed;

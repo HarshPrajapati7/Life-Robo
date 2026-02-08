@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { SIMULATIONS, Simulation } from "@/lib/simulations";
@@ -11,9 +11,9 @@ export default function PlaygroundPage() {
   const [selectedSim, setSelectedSim] = useState<Simulation>(SIMULATIONS.find(s => s.id === 'humanoid') || SIMULATIONS[0]);
   const [currentTime, setCurrentTime] = useState<string>("");
 
-  const startSimulation = (sim: Simulation) => {
+  const startSimulation = useCallback((sim: Simulation) => {
     router.push(`/playground/${sim.id}`, { scroll: false });
-  };
+  }, [router]);
 
   useEffect(() => {
     setCurrentTime(new Date().toLocaleTimeString());
@@ -31,7 +31,7 @@ export default function PlaygroundPage() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedSim, router]);
+  }, [selectedSim, startSimulation]);
 
   const rovers = SIMULATIONS.filter(s => s.id !== 'humanoid');
   const humanoids = SIMULATIONS.filter(s => s.id === 'humanoid');

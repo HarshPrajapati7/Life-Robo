@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import GalleryCard from "@/components/ui/GalleryCard";
 
 const galleryItems = [
@@ -72,6 +73,22 @@ export default function GalleryPreview() {
                             <GalleryCard item={item} />
                         </motion.div>
                     ))}
+                </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="text-center mt-12"
+                >
+                    <Link
+                        href="/gallery"
+                        className="inline-flex items-center gap-2 px-8 py-3 border border-cyber-cyan/40 text-cyber-cyan font-tech text-sm uppercase tracking-widest hover:bg-cyber-cyan/10 transition-all duration-300 rounded-sm"
+                    >
+                        View Full Gallery
+                        <span className="text-lg">→</span>
+                    </Link>
                 </motion.div>
             </div>
         </section>
