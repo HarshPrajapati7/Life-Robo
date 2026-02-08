@@ -2,79 +2,165 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChevronRight, Globe, Rocket, Moon, ArrowRight } from "lucide-react";
-import { SIMULATIONS, Simulation } from "@/lib/simulations";
-
-const SIM_ICONS: Record<string, React.ElementType> = {
-  earth: Globe,
-  mars: Rocket,
-  moon: Moon,
-};
+import { Terminal, Cpu, Move, ShieldCheck, ChevronRight } from "lucide-react";
 
 export default function PlaygroundSection() {
   return (
-    <section className="py-20 relative bg-transparent">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between mb-12">
-          <div>
-            <span className="text-cyber-cyan font-tech text-[10px] tracking-[0.4em] uppercase mb-2 block">Simulations</span>
-            <h2 className="text-2xl font-display font-black text-white uppercase tracking-tight">
-              Active <span className="text-white/40">Environments</span>
-            </h2>
-          </div>
-          <Link href="/playground" className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors">
-            <span className="text-[10px] font-tech uppercase tracking-widest">View All</span>
-            <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
+    <section className="py-24 relative overflow-hidden bg-cyber-dark">
+      {/* Background Decorative Grid */}
+      <div className="absolute inset-0 bg-cyber-grid opacity-10 pointer-events-none" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {SIMULATIONS.map((sim, index) => (
-            <SimCard key={sim.id} sim={sim} index={index} />
-          ))}
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
+
+          {/* Left: Content */}
+          <div className="flex-grow max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-2 text-cyber-cyan mb-6"
+            >
+              <Terminal size={16} />
+              <span className="text-xs font-tech tracking-[0.4em] uppercase">Simulation_Environment</span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-white leading-tight mb-8 uppercase"
+            >
+              VIRTUAL<br />
+              <span className="text-cyber-cyan">SANDBOX</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-gray-400 text-base md:text-lg font-body mb-10 leading-relaxed max-w-xl"
+            >
+              Enter our interactive 3D laboratory. Test your robotics logic,
+              control virtual rovers, and experiment with physics in a
+              zero-latency browser environment.
+            </motion.p>
+
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.15,
+                    delayChildren: 0.2
+                  }
+                }
+              }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12"
+            >
+              <FeatureItem
+                icon={<Cpu size={20} className="text-cyber-cyan" />}
+                title="Physics Core"
+                desc="Real-time Rapier-3D integration"
+              />
+              <FeatureItem
+                icon={<Move size={20} className="text-cyber-secondary" />}
+                title="Full Control"
+                desc="Kinematic rover drive system"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Link href="/playground" className="group flex items-center gap-4 text-white font-display font-bold text-sm tracking-widest uppercase py-4 px-1 border-b-2 border-transparent hover:border-cyber-cyan transition-all w-fit">
+                Enter Playground <ChevronRight className="group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Right: Visual Preview Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, rotateY: 10 }}
+            whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full lg:w-[500px] shrink-0 mt-12 lg:mt-0"
+          >
+            <div className="glass-panel p-2 relative group cursor-pointer overflow-hidden rounded-xl border-white/5 hover:border-cyber-cyan/30 transition-all duration-500">
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-cyber-cyan to-transparent opacity-50 z-20" />
+
+              {/* Fake UI Overlay */}
+              <div className="absolute inset-0 z-10 p-6 flex flex-col justify-between pointer-events-none group-hover:bg-cyber-cyan/5 transition-colors duration-500">
+                <div className="flex justify-between items-start">
+                  <div className="bg-black/80 backdrop-blur-md px-3 py-1 border-l-2 border-cyber-cyan">
+                    <span className="text-[8px] font-tech text-cyan-400 uppercase tracking-widest">LR_SANDBOX_V2</span>
+                  </div>
+                  <div className="bg-black/80 backdrop-blur-md p-1">
+                    <ShieldCheck size={14} className="text-green-500" />
+                  </div>
+                </div>
+
+                <div className="w-12 h-12 rounded-full border border-cyber-cyan/30 flex items-center justify-center bg-black/40 group-hover:scale-110 transition-transform duration-500">
+                  <div className="w-8 h-8 rounded-full border-t-2 border-cyber-cyan animate-spin" />
+                </div>
+              </div>
+
+              {/* Image Preview */}
+              <div className="relative aspect-video bg-[#050505] overflow-hidden rounded-lg">
+                <div className="absolute inset-0 bg-cyber-grid opacity-20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-24 md:w-32 h-12 md:h-16 bg-cyber-cyan/10 border border-cyber-cyan shadow-[0_0_30px_rgba(0,243,255,0.2)] rounded relative transition-transform duration-500 group-hover:scale-110">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-8 bg-cyber-cyan/20 border-x border-cyber-cyan/40" />
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-cyber-cyan/40" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex justify-center gap-4">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-1 w-8 bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    animate={{ x: ["-100%", "100%"] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                    className="h-full w-full bg-cyber-cyan/40"
+                  />
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 }
 
-function SimCard({ sim, index }: { sim: Simulation; index: number }) {
-  const Icon = SIM_ICONS[sim.id];
-  
+function FeatureItem({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0 }
+      }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="flex gap-4 p-4 hover:bg-white/5 transition-colors border-l border-white/5 hover:border-cyber-primary/20"
     >
-      <Link href={`/playground/${sim.id}`} className="group block">
-        <div className="p-6 bg-white/[0.02] border border-white/5 hover:border-cyber-cyan/30 transition-all duration-300 relative overflow-hidden">
-           <div className="flex items-start justify-between mb-4">
-              <div 
-                className="w-8 h-8 flex items-center justify-center bg-white/5 rounded-sm"
-                style={{ color: sim.color }}
-              >
-                 {Icon && <Icon size={16} />}
-              </div>
-              <span className="text-[8px] font-tech text-white/20 uppercase tracking-widest">MT-{index}</span>
-           </div>
-
-           <h3 className="text-lg font-display font-black text-white uppercase mb-1">{sim.name}</h3>
-           <p className="text-[11px] text-gray-500 font-light mb-4 line-clamp-1">{sim.description}</p>
-           
-           <div className="flex items-center justify-between pt-4 border-t border-white/5">
-              <span className="text-[9px] font-tech text-cyber-cyan uppercase tracking-widest group-hover:translate-x-1 transition-transform inline-flex items-center gap-2">
-                Launch <ArrowRight size={10} />
-              </span>
-              <div className="flex gap-1">
-                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: sim.color }} />
-                 <div className="w-1.5 h-1.5 rounded-full bg-white/10" />
-                 <div className="w-1.5 h-1.5 rounded-full bg-white/10" />
-              </div>
-           </div>
-        </div>
-      </Link>
+      <div className="shrink-0">{icon}</div>
+      <div>
+        <h4 className="text-white font-display text-sm uppercase tracking-wide mb-1">{title}</h4>
+        <p className="text-[10px] sm:text-[11px] font-tech text-gray-500 uppercase tracking-tighter">{desc}</p>
+      </div>
     </motion.div>
   );
 }

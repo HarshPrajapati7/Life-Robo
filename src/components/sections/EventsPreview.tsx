@@ -2,114 +2,118 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ChevronRight, Calendar } from "lucide-react";
+import Image from "next/image";
 
+const events = [
+    {
+        id: 1,
+        title: "Roboeminence",
+        category: "Competition",
+        date: "Upcoming",
+        description: "Prepare for the ultimate robotics showdown. Line follower, maze solver, and robo-soccer competitions.",
+        image: "/images/events/Roboeminence.jpg",
+    },
+    {
+        id: 2,
+        title: "Lecture Series",
+        category: "Workshop",
+        date: "Completed",
+        description: "Dive deep into the world of robotics and animation. 8-day intensive program covering foundational principles.",
+        image: "/images/events/Workshop.jpg",
+    }
+];
 
 export default function EventsPreview() {
-  return (
-    <section className="py-24 bg-transparent relative">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-end mb-12">
-            <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-            >
-                <span className="text-cyber-cyan font-tech text-sm tracking-wider uppercase">Mark Your Calendars</span>
-                <h2 className="text-4xl md:text-5xl font-bold mt-2">Upcoming Events</h2>
-            </motion.div>
-            
-            <Link href="/events" className="hidden md:flex items-center text-cyber-cyan font-bold group">
-                View All Events <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
-        </div>
+    return (
+        <section className="py-24 bg-black/20 relative">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <span className="text-cyber-cyan font-tech text-xs tracking-widest uppercase mb-2 block">Upcoming</span>
+                        <h2 className="text-4xl md:text-6xl font-black text-white font-display uppercase tracking-tight">
+                            LATEST <span className="text-cyber-cyan">LOGS</span>
+                        </h2>
+                    </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 viewport={{ once: true }}
-                 transition={{ delay: 0.1 }}
-                 className="group"
-            >
-                <Link href="/events">
-                    <div className="glass-panel h-full p-1 border border-cyber-cyan/30 hover:border-cyber-cyan transition-all overflow-hidden relative group">
-                        <div className="absolute inset-0 bg-cyber-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="h-64 bg-black w-full rounded relative overflow-hidden">
-                             {/* Real Image */}
-                             <div 
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
-                                style={{ backgroundImage: "url('/images/events/Roboeminence.jpg')" }}
-                             />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10" />
-                             
-                             <div className="absolute bottom-4 left-4 z-20">
-                                <span className="bg-cyber-cyan text-black text-[10px] font-bold px-2 py-1 rounded-none mb-2 inline-block font-tech uppercase tracking-widest">COMPETITION</span>
-                                <h3 className="text-2xl font-bold text-white font-display uppercase">Roboeminence</h3>
-                             </div>
-                             <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 border border-cyber-cyan/30 flex items-center gap-2 text-[10px] font-tech text-white uppercase tracking-wider">
-                                <Calendar size={12} className="text-cyber-cyan" />
-                                <span>Upcoming</span>
-                             </div>
-                        </div>
-                        <div className="p-6">
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2 font-body">
-                                Prepare for the ultimate robotics showdown. Line follower, maze solver, and robo-soccer competitions.
-                            </p>
-                            <span className="text-cyber-cyan text-xs font-bold font-tech uppercase tracking-widest flex items-center group-hover:gap-4 transition-all">
-                                Participate Now <ArrowRight size={14} />
-                            </span>
-                        </div>
-                    </div>
-                </Link>
-            </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <Link href="/events" className="group flex items-center gap-2 text-cyber-cyan font-tech text-xs uppercase tracking-widest border border-cyber-cyan/30 px-6 py-3 hover:bg-cyber-cyan/10 transition-all">
+                            Complete Archive <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </motion.div>
+                </div>
 
-            <motion.div
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 viewport={{ once: true }}
-                 transition={{ delay: 0.2 }}
-                 className="group"
-            >
-                <Link href="/events">
-                    <div className="glass-panel h-full p-1 border border-cyber-yellow/30 hover:border-cyber-yellow transition-all overflow-hidden relative group">
-                        <div className="absolute inset-0 bg-cyber-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                         <div className="h-64 bg-black w-full rounded relative overflow-hidden">
-                             {/* Real Image */}
-                             <div 
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
-                                style={{ backgroundImage: "url('/images/events/Workshop.jpg')" }}
-                             />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10" />
-                             
-                             <div className="absolute bottom-4 left-4 z-20">
-                                <span className="bg-cyber-yellow text-black text-[10px] font-bold px-2 py-1 rounded-none mb-2 inline-block font-tech uppercase tracking-widest">WORKSHOP</span>
-                                <h3 className="text-2xl font-bold text-white font-display uppercase">Lecture Series</h3>
-                             </div>
-                             <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 border border-cyber-yellow/30 flex items-center gap-2 text-[10px] font-tech text-white uppercase tracking-wider">
-                                <Calendar size={12} className="text-cyber-yellow" />
-                                <span>Completed</span>
-                             </div>
-                        </div>
-                        <div className="p-6">
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2 font-body">
-                                Dive deep into the world of robotics and animation. 8-day intensive program covering foundational principles.
-                            </p>
-                            <span className="text-cyber-yellow text-xs font-bold font-tech uppercase tracking-widest flex items-center group-hover:gap-4 transition-all">
-                                View Archive <ArrowRight size={14} />
-                            </span>
-                        </div>
-                    </div>
-                </Link>
-            </motion.div>
-        </div>
-        
-         <div className="mt-8 text-center md:hidden">
-            <Link href="/events" className="inline-flex items-center text-cyber-primary font-bold">
-                View All Events <ArrowRight className="ml-2" />
-            </Link>
-         </div>
-      </div>
-    </section>
-  );
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.15,
+                                delayChildren: 0.2
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                >
+                    {events.map((event) => (
+                        <motion.div
+                            key={event.id}
+                            variants={{
+                                hidden: { opacity: 0, y: 40, scale: 0.98 },
+                                show: { opacity: 1, y: 0, scale: 1 }
+                            }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className="group relative bg-[#0a0a0a] border border-white/5 hover:border-cyber-cyan/40 overflow-hidden rounded-xl transition-all duration-500"
+                        >
+                            <div className="aspect-[16/10] relative overflow-hidden">
+                                <div className="absolute inset-0 bg-cyber-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay" />
+                                <Image
+                                    src={event.image}
+                                    alt={event.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                                />
+                                <div className="absolute top-4 left-4 z-20">
+                                    <span className="bg-black/80 backdrop-blur-md text-cyber-cyan text-[10px] font-tech px-3 py-1 uppercase tracking-widest border-l-2 border-cyber-cyan">
+                                        {event.date}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="p-6 md:p-8">
+                                <span className="text-cyber-cyan/60 text-[10px] font-tech uppercase tracking-[0.2em] mb-2 block">{event.category}</span>
+                                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 font-display group-hover:text-cyber-cyan transition-colors">{event.title}</h3>
+                                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-body mb-6 line-clamp-2">
+                                    {event.description}
+                                </p>
+                                <div className="flex items-center gap-2 text-white/40 text-[10px] font-tech uppercase tracking-widest pt-4 border-t border-white/5">
+                                    <Calendar size={12} className="text-cyber-cyan" /> View Details
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+
+                <div className="mt-8 text-center md:hidden">
+                    <Link href="/events" className="inline-flex items-center text-cyber-cyan font-tech text-[10px] uppercase tracking-widest">
+                        View All Events <ChevronRight size={14} className="ml-2" />
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
 }

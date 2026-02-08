@@ -1,62 +1,9 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useRef, useEffect, useLayoutEffect, useState, Suspense } from "react";
 import * as THREE from "three";
-import { Float, Stars } from "@react-three/drei";
-
-function Atom() {
-  const points = useMemo(() => new THREE.EllipseCurve(0, 0, 10, 10, 0, 2 * Math.PI, false, 0).getPoints(100), []);
-  return (
-    <group>
-      <Line points={points} color="#4285f4" rotation={[0, 0, 1]} />
-      <Line points={points} color="#34a853" rotation={[0, 0, -1]} />
-      <Line points={points} color="#ea4335" rotation={[0, 0, 0]} />
-      <Sphere />
-    </group>
-  );
-}
-
-function Line({ points, color, rotation }: { points: THREE.Vector2[], color: string, rotation: number[] }) {
-    const ref = useRef<THREE.Mesh>(null);
-    useFrame((state) => {
-        if (ref.current) {
-            ref.current.rotation.x = state.clock.getElapsedTime() * 0.2 + (rotation?.[0] || 0);
-            ref.current.rotation.y = state.clock.getElapsedTime() * 0.2 + (rotation?.[1] || 0);
-            ref.current.rotation.z = state.clock.getElapsedTime() * 0.2 + (rotation?.[2] || 0);
-        }
-    });
-
-  const geometry = useMemo(() => {
-    const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(p.x, p.y, 0)));
-    return new THREE.TubeGeometry(curve, 64, 0.1, 2, true);
-  }, [points]);
-
-  return (
-    <mesh ref={ref} geometry={geometry}>
-      <meshStandardMaterial color={color} transparent opacity={0.5} roughness={0} metalness={1} emissive={color} emissiveIntensity={2} />
-    </mesh>
-  );
-}
-
-function Sphere() {
-    const mesh = useRef<THREE.Mesh>(null);
-    useFrame((state) => {
-      if(mesh.current) {
-        mesh.current.rotation.y = state.clock.getElapsedTime() * 0.5;
-        mesh.current.rotation.z = state.clock.getElapsedTime() * 0.2;
-      }
-    })
-  return (
-    <Float floatIntensity={2} rotationIntensity={2}>
-      <mesh ref={mesh}>
-        <icosahedronGeometry args={[3, 1]} />
-        <meshStandardMaterial color="#fbbc04" wireframe transparent opacity={0.3} emissive="#fbbc04" emissiveIntensity={0.5} />
-      </mesh>
-    </Float>
-  );
-}
-
+import { Stage, useGLTF, useAnimations, ContactShadows, Stars, useScroll, ScrollControls } from "@react-three/drei";
 
 function SceneReadyTracker() {
   const rendered = useRef(false);
@@ -69,17 +16,117 @@ function SceneReadyTracker() {
   return null;
 }
 
-export default function HeroScene() {
+function RobotModel({ gesture }: { gesture: string }) {
+  const group = useRef<any>();
+  const { scene, animations } = useGLTF("/robot_animated.glb");
+  const { actions } = useAnimations(animations, group);
+  const scroll = useScroll();
+  const { viewport } = useThree();
+
+  // Responsive scaling factor
+  const scale = Math.min(viewport.width / 4, 1.2);
+
+  useFrame((state, delta) => {
+    if (group.current) {
+      // Smoother rotation based on scroll with lerping
+      const targetRotation = scroll.offset * Math.PI * 0.5;
+      group.current.rotation.y = THREE.MathUtils.lerp(
+        group.current.rotation.y,
+        targetRotation,
+        0.1
+      );
+    }
+  });
+
+  useLayoutEffect(() => {
+    scene.traverse((obj: any) => {
+      if (obj.isMesh) {
+        const mat = obj.material;
+        // Global PBR enhancements for realism
+        mat.metalness = 0.9;
+        mat.roughness = 0.15;
+        mat.envMapIntensity = 2.0;
+
+        // Specific part tuning based on material names for the Orange/Black theme
+        if (mat.name.includes("Main") || mat.name.includes("Body") || mat.name.includes("Head") || mat.name.includes("Arms")) {
+          mat.color.set("#ff5400"); // Vibrant Industrial Orange
+          mat.metalness = 0.7;
+          mat.roughness = 0.2;
+        } else if (mat.name.includes("Grey") || mat.name.includes("Black") || mat.name.includes("Joints")) {
+          mat.color.set("#0a0a0a"); // Deep Black
+          mat.roughness = 0.5;
+          mat.metalness = 0.8;
+        } else if (mat.name.includes("Yellow") || mat.name.includes("Red") || mat.name.includes("Glow")) {
+          // Emissive Accents
+          mat.color.set("#ffaa00");
+          mat.emissive = new THREE.Color("#ffaa00");
+          mat.emissiveIntensity = 2.0;
+        }
+
+        mat.needsUpdate = true;
+      }
+    });
+  }, [scene]);
+
+  useEffect(() => {
+    // Stop all current animations with crossfade
+    Object.values(actions).forEach((action) => action?.fadeOut(0.5));
+
+    // Play the selected gesture (map Hi to Wave)
+    const animationName = gesture === "Hi" ? "Wave" : gesture;
+    const action = actions[animationName] || actions["Idle"];
+
+    if (action) {
+      action.reset().fadeIn(0.5).play();
+    }
+  }, [gesture, actions]);
+
+
   return (
-    <div className="absolute inset-0 -z-10 h-full w-full">
-      <Canvas camera={{ position: [0, 0, 15], fov: 45 }} dpr={[1, 2]}>
+    <group ref={group} dispose={null} scale={scale}>
+      <primitive object={scene} />
+    </group>
+  );
+}
+
+export default function HeroScene() {
+  const [gesture, setGesture] = useState("Hi");
+  const gestures = ["Idle", "Hi", "Dance", "ThumbsUp", "Punch", "Running", "Jump"];
+
+  return (
+    <div className="relative w-full h-full min-h-[400px] md:min-h-[500px]">
+
+
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none w-full px-4 overflow-x-auto no-scrollbar">
+
+        <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-2 pointer-events-auto pb-2">
+          {gestures.map((g) => (
+            <button
+              key={g}
+              onClick={() => setGesture(g)}
+              className={`flex-shrink-0 px-3 py-1 text-[10px] md:text-xs font-tech uppercase tracking-widest transition-all duration-300 border ${gesture === g
+                ? "bg-cyber-cyan text-black border-cyber-cyan shadow-[0_0_15px_rgba(0,255,242,0.4)]"
+                : "bg-black/40 text-cyber-cyan border-cyber-cyan/30 hover:bg-cyber-cyan/10"
+                }`}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <Canvas shadows dpr={[1, 2]} camera={{ fov: 45, position: [0, 0, 10] }} className="rounded-2xl overflow-hidden bg-black/40 border border-white/5 shadow-2xl">
         <SceneReadyTracker />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} color="#4285f4" />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#ea4335" />
-        <Atom />
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        <fog attach="fog" args={['#0d0d0d', 10, 40]} />
+        <Suspense fallback={null}>
+          <ScrollControls pages={0} damping={0.2}>
+            <Stage environment="studio" intensity={1} adjustCamera preset="rembrandt">
+              <RobotModel gesture={gesture} />
+            </Stage>
+            <ContactShadows opacity={0.4} scale={10} blur={2.4} far={0.8} />
+            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+          </ScrollControls>
+        </Suspense>
+        <fog attach="fog" args={["#0d0d0d", 10, 40]} />
       </Canvas>
     </div>
   );
