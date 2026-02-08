@@ -26,13 +26,13 @@ export default function Footer() {
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyber-cyan/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           
           {/* Brand Column */}
           <div className="space-y-6 group">
             <div className="flex items-center gap-4">
               <div className="relative w-14 h-14 bg-black border border-white/10 tech-border-corner p-1 overflow-hidden transition-all group-hover:border-cyber-cyan/50">
-                <Image src="/images/logo.png" alt="Life Robo Logo" fill className="object-contain p-1.5" />
+                <Image src="/images/logo.png" alt="Life Robo Logo" fill sizes="56px" className="object-contain p-1.5" />
               </div>
               <h3 className="text-2xl font-bold text-white font-display tracking-widest leading-none transition-colors group-hover:text-neon-cyan">
                 LIFE ROBO
@@ -96,30 +96,6 @@ export default function Footer() {
                 </span>
               </li>
             </ul>
-          </div>
-
-          {/* Status Column */}
-          <div>
-            <h4 className="text-white font-display font-bold uppercase tracking-widest mb-6 text-sm flex items-center gap-2">
-              <div className="w-1 h-3 bg-cyber-cyan"></div>
-              System Status
-            </h4>
-            <div className="bg-white/5 border border-white/10 p-4 space-y-3 font-tech">
-               <div className="flex justify-between items-center text-[10px] tracking-widest">
-                  <span className="text-gray-500 uppercase">Server Status</span>
-                  <span className="text-cyber-cyan">ONLINE</span>
-               </div>
-               <div className="w-full bg-white/5 h-1">
-                  <div className="bg-cyber-cyan w-[94%] h-full"></div>
-               </div>
-               <div className="flex justify-between items-center text-[10px] tracking-widest pt-2">
-                  <span className="text-gray-500 uppercase">Core Load</span>
-                  <span className="text-white">OPTIMAL</span>
-               </div>
-            </div>
-            <p className="text-[10px] text-gray-500 mt-4 leading-relaxed font-tech uppercase tracking-widest">
-              Last Handshake: {new Date().toLocaleTimeString()}
-            </p>
           </div>
 
         </div>

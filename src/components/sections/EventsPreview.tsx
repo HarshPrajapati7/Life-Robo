@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { ChevronRight, Calendar } from "lucide-react";
-import Image from "next/image";
+import EventCard from "@/components/ui/EventCard";
 
 const events = [
     {
@@ -26,7 +26,7 @@ const events = [
 
 export default function EventsPreview() {
     return (
-        <section className="py-24 bg-black/20 relative">
+        <section className="py-24 bg-black/20 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <motion.div
@@ -67,52 +67,22 @@ export default function EventsPreview() {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                    className="space-y-16"
                 >
-                    {events.map((event) => (
+                    {events.map((event, index) => (
                         <motion.div
                             key={event.id}
                             variants={{
-                                hidden: { opacity: 0, y: 40, scale: 0.98 },
-                                show: { opacity: 1, y: 0, scale: 1 }
+                                hidden: { opacity: 0, y: 40 },
+                                show: { opacity: 1, y: 0 }
                             }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="group relative bg-[#0a0a0a] border border-white/5 hover:border-cyber-cyan/40 overflow-hidden rounded-xl transition-all duration-500"
                         >
-                            <div className="aspect-[16/10] relative overflow-hidden">
-                                <div className="absolute inset-0 bg-cyber-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay" />
-                                <Image
-                                    src={event.image}
-                                    alt={event.title}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                                />
-                                <div className="absolute top-4 left-4 z-20">
-                                    <span className="bg-black/80 backdrop-blur-md text-cyber-cyan text-[10px] font-tech px-3 py-1 uppercase tracking-widest border-l-2 border-cyber-cyan">
-                                        {event.date}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="p-6 md:p-8">
-                                <span className="text-cyber-cyan/60 text-[10px] font-tech uppercase tracking-[0.2em] mb-2 block">{event.category}</span>
-                                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 font-display group-hover:text-cyber-cyan transition-colors">{event.title}</h3>
-                                <p className="text-gray-400 text-sm md:text-base leading-relaxed font-body mb-6 line-clamp-2">
-                                    {event.description}
-                                </p>
-                                <div className="flex items-center gap-2 text-white/40 text-[10px] font-tech uppercase tracking-widest pt-4 border-t border-white/5">
-                                    <Calendar size={12} className="text-cyber-cyan" /> View Details
-                                </div>
-                            </div>
+                             <EventCard event={event} index={index} isPreview={true} />
                         </motion.div>
                     ))}
                 </motion.div>
 
-                <div className="mt-8 text-center md:hidden">
-                    <Link href="/events" className="inline-flex items-center text-cyber-cyan font-tech text-[10px] uppercase tracking-widest">
-                        View All Events <ChevronRight size={14} className="ml-2" />
-                    </Link>
-                </div>
+
             </div>
         </section>
     );

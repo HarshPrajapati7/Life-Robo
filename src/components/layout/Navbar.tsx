@@ -116,7 +116,7 @@ export default function Navbar() {
         <div className="md:hidden bg-black/95 backdrop-blur-xl border-b border-cyber-cyan/30">
           <div className="px-2 pt-2 pb-6 space-y-1 sm:px-3 font-tech">
             {/* Nav Sections inside Hamburger */}
-            <div className="text-[10px] text-cyber-cyan/50 font-tech uppercase tracking-[0.2em] px-3 pt-4 pb-2">Central Ops</div>
+            <div className="text-[10px] text-cyber-cyan/50 font-tech uppercase tracking-[0.2em] px-3 pt-4 pb-2">General</div>
             {mobileMenuItems.filter(i => ["Events", "Contact"].includes(i.name)).map((item) => (
               <Link
                 key={item.name}
@@ -131,7 +131,7 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <div className="text-[10px] text-cyber-yellow/50 font-tech uppercase tracking-[0.2em] px-3 pt-6 pb-2">Labs & Tools</div>
+            <div className="text-[10px] text-cyber-yellow/50 font-tech uppercase tracking-[0.2em] px-3 pt-6 pb-2">Laboratory</div>
             {mobileMenuItems.filter(i => ["Playground", "IDE"].includes(i.name)).map((item) => (
               <Link
                 key={item.name}

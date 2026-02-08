@@ -62,7 +62,7 @@ export default function AboutSection() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
         >
-          {features.map((feature, idx) => (
+          {features.map((feature) => (
             <motion.div
               key={feature.title}
               variants={{
