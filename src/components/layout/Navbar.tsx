@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
 
@@ -18,16 +18,6 @@ const desktopNavItems = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-
-  // Prefetch page assets on hover so they're cached before navigation
-  const handleLinkHover = useCallback((href: string) => {
-    const pageMap: Record<string, "home" | "gallery" | "events" | "team"> = {
-      "/": "home",
-      "/gallery": "gallery",
-      "/events": "events",
-      "/team": "team",
-    };
-  }, []);
 
   return (
     <nav className="absolute top-0 w-full z-50 bg-[#060608]/90 backdrop-blur-md border-b border-white/5">
@@ -49,7 +39,6 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  onMouseEnter={() => handleLinkHover(item.href)}
                   className={clsx(
                     "px-3 py-1.5 text-[11px] font-bold transition-all duration-200 font-tech uppercase tracking-wider",
                     pathname === item.href
