@@ -35,6 +35,7 @@ import NavbarWrapper from "@/components/layout/NavbarWrapper";
 import FooterWrapper from "@/components/layout/FooterWrapper";
 import Preloader from "@/components/layout/Preloader";
 import MainContentWrapper from "@/components/layout/MainContentWrapper";
+import BackgroundEffects from "@/components/layout/BackgroundEffects";
 
 export default function RootLayout({
   children,
@@ -47,6 +48,7 @@ export default function RootLayout({
         className={`${orbitron.variable} ${rajdhani.variable} ${shareTechMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black`}
       >
         <Preloader />
+        <BackgroundEffects />
         <NavbarWrapper />
         <MainContentWrapper>
           {children}

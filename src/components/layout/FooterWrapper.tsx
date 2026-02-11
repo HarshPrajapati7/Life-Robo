@@ -8,9 +8,11 @@ export default function FooterWrapper() {
   
   // Hide footer on simulation pages
   // Path pattern: /playground/[simId]
-  const isSimulationPage = pathname.startsWith("/playground/") && pathname.split("/").length > 2;
+  // Hide footer on simulation pages and IDE
+  // Path pattern: /playground/[simId]
+  const shouldHideFooter = (pathname.startsWith("/playground/") && pathname.split("/").length > 2) || pathname.startsWith("/ide");
 
-  if (isSimulationPage) return null;
+  if (shouldHideFooter) return null;
 
   return <Footer />;
 }

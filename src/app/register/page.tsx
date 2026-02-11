@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,9 +22,14 @@ export default function LoginPage() {
       );
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!name.trim()) {
+        setError("Please enter your full name.");
+        return;
+    }
 
     if (!validateEmail(email)) {
         setError("Please enter a valid email address.");
@@ -34,12 +41,18 @@ export default function LoginPage() {
         return;
     }
 
+    if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+    }
+
     setIsLoading(true);
     
-    const role = email.toLowerCase().includes("admin") ? "admin" : "member";
+    // Mock registration logic
+    const role = "member";
     
     setTimeout(() => {
-        localStorage.setItem("liferobo_user", JSON.stringify({ email, role }));
+        localStorage.setItem("liferobo_user", JSON.stringify({ name, email, role }));
         setIsLoading(false);
         router.push("/dashboard");
     }, 1500);
@@ -52,12 +65,24 @@ export default function LoginPage() {
             
             <div className="mb-8">
                 <h1 className="text-2xl font-black text-white font-display mb-1 uppercase tracking-wider">
-                    Login
+                    Join Team
                 </h1>
-                <p className="text-white/25 text-xs">Sign in to your member account</p>
+                <p className="text-white/25 text-xs">Create your member account</p>
             </div>
             
-            <form onSubmit={handleLogin} className="space-y-5">
+            <form onSubmit={handleRegister} className="space-y-5">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-white/30 font-tech uppercase tracking-widest">Full Name</label>
+                <input 
+                    type="text" 
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-0 py-3 bg-transparent border-b border-white/10 focus:border-white/30 focus:outline-none text-white font-body transition-all placeholder:text-white/10 text-sm" 
+                    placeholder="John Doe" 
+                />
+              </div>
+
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-white/30 font-tech uppercase tracking-widest">Email</label>
                 <input 
@@ -69,6 +94,7 @@ export default function LoginPage() {
                     placeholder="you@email.com" 
                 />
               </div>
+
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-white/30 font-tech uppercase tracking-widest">Password</label>
                 <input 
@@ -76,6 +102,18 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-0 py-3 bg-transparent border-b border-white/10 focus:border-white/30 focus:outline-none text-white font-body transition-all placeholder:text-white/10 text-sm" 
+                    placeholder="••••••••" 
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-white/30 font-tech uppercase tracking-widest">Confirm Password</label>
+                <input 
+                    type="password" 
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full px-0 py-3 bg-transparent border-b border-white/10 focus:border-white/30 focus:outline-none text-white font-body transition-all placeholder:text-white/10 text-sm" 
                     placeholder="••••••••" 
                 />
@@ -95,17 +133,12 @@ export default function LoginPage() {
                 disabled={isLoading}
                 className="w-full py-3.5 bg-white text-black font-bold font-display text-sm uppercase tracking-wider hover:bg-white/90 active:scale-[0.98] transition-all disabled:opacity-50"
               >
-                {isLoading ? "Signing in..." : "Sign In"}
+                {isLoading ? "Creating Account..." : "Register"}
               </button>
-
-              <div className="flex justify-center items-center text-[10px] text-white/20 font-tech pt-2 space-x-1">
-                  <span>New Member?</span>
-                  <Link href="/register" className="text-white/30 hover:text-white/60 transition-colors uppercase tracking-wider font-bold">Register Here</Link>
-              </div>
               
-              <div className="flex justify-between items-center text-[10px] text-white/20 font-tech pt-4 mt-2 border-t border-white/5">
-                  <span>Forgot password?</span>
-                  <Link href="/contact" className="text-white/30 hover:text-white/60 transition-colors">Contact Us</Link>
+              <div className="flex justify-center items-center text-[10px] text-white/20 font-tech pt-1 space-x-1">
+                  <span>Already a member?</span>
+                  <Link href="/login" className="text-white/30 hover:text-white/60 transition-colors uppercase tracking-wider font-bold">Sign In</Link>
               </div>
             </form>
         </div>

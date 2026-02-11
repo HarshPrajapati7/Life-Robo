@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-
 import { useState } from "react";
 import OverlayViewer from "@/components/ui/OverlayViewer";
 import EventCard from "@/components/ui/EventCard";
@@ -54,7 +53,7 @@ export default function EventsPage() {
   };
 
   return (
-    <main className="min-h-screen p-8 md:p-24 pt-32 relative overflow-hidden">
+    <main className="min-h-screen px-6 md:px-12 pt-24 pb-16 bg-[#060608]/85">
       <OverlayViewer 
         data={selectedEvent ? {
             src: selectedEvent.image,
@@ -65,8 +64,7 @@ export default function EventsPage() {
             metadata: {
                 "Schedule": selectedEvent.date,
                 "Status": selectedEvent.status,
-                "Venue": "Faculty of Engineering",
-                "Protocol": "Active"
+                "Venue": "Faculty of Engineering"
             }
         } : null}
         onClose={() => setSelectedEvent(null)}
@@ -74,28 +72,28 @@ export default function EventsPage() {
         onPrev={handlePrev}
       />
       
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto">
         <motion.div 
-             initial={{ opacity: 0, y: -20 }}
+             initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             className="text-center mb-20"
+             className="mb-16"
         >
-            <h1 className="text-5xl md:text-7xl font-bold font-display text-white mb-6 uppercase tracking-tighter loading-none">
-                Club <span className="text-cyber-cyan">Timeline</span>
+            <h1 className="text-4xl md:text-5xl font-bold font-display text-white mb-3 uppercase tracking-tight">
+                Events
             </h1>
-            <p className="text-gray-400 font-body text-lg max-w-2xl mx-auto">
-                Chronological archive of our workshops, competitions, and seminars.
+            <p className="text-white/30 text-sm max-w-md">
+                Workshops, competitions, and seminars from our journey so far.
             </p>
         </motion.div>
 
-        <div className="space-y-24">
+        <div className="space-y-20">
             {events.map((event, index) => (
                 <motion.div 
                     key={event.title} 
-                    initial={{ opacity: 0, y: 50 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.2 }}
+                    transition={{ delay: index * 0.1 }}
                 >
                     <EventCard 
                         event={event} 

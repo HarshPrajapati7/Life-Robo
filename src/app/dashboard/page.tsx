@@ -74,7 +74,7 @@ export default function DashboardPage() {
             {/* Left Column - Stats & Identity */}
             <div className="space-y-8">
                 {/* Profile Card */}
-                <div className="bg-white/5 border border-white/10 p-6 tech-border-corner">
+                <div className="bg-white/5 border border-white/10 p-6">
                     <div className="flex items-center gap-4 mb-6">
                         <div className="w-16 h-16 bg-cyber-dark border border-cyber-cyan/30 flex items-center justify-center relative">
                             <Users className="text-cyber-cyan" size={32} />

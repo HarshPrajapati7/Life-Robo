@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import GalleryCard from "@/components/ui/GalleryCard";
 
 const galleryItems = [
     {
         id: 1,
         title: "Robotics Workshop",
-        category: "Live Session",
+        category: "Workshop",
         src: '/images/gallery/workshops/pic (1).jpg'
     },
     {
@@ -19,77 +20,47 @@ const galleryItems = [
     },
     {
         id: 3,
-        title: "Bot Integration",
-        category: "Team Build",
+        title: "Bot Assembly",
+        category: "Workshop",
         src: '/images/gallery/workshops/pic (5).jpg'
     }
 ];
 
 export default function GalleryPreview() {
     return (
-        <section className="py-24 bg-black relative">
-            <div className="max-w-7xl mx-auto px-4 md:px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-center mb-16"
-                >
-                    <span className="text-cyber-cyan font-tech text-xs tracking-widest uppercase mb-2 block tracking-[0.4em]">Visual Archive</span>
-                    <h2 className="text-4xl md:text-6xl font-black text-white font-display uppercase tracking-tight">
-                        FIELD <span className="text-cyber-cyan">DATA</span>
-                    </h2>
-                </motion.div>
-
-                <motion.div
-                    variants={{
-                        hidden: { opacity: 0 },
-                        show: {
-                            opacity: 1,
-                            transition: {
-                                staggerChildren: 0.1,
-                                delayChildren: 0.1
-                            }
-                        }
-                    }}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-                >
-                    {galleryItems.map((item) => (
-                        <motion.div
-                            key={item.id}
-                            variants={{
-                                hidden: { opacity: 0, y: 40, scale: 0.95, rotateX: 10, rotateY: -10 },
-                                show: { opacity: 1, y: 0, scale: 1, rotateX: 0, rotateY: 0 }
-                            }}
-                            transition={{
-                                duration: 1.2,
-                                ease: [0.16, 1, 0.3, 1]
-                            }}
-                        >
-                            <GalleryCard item={item} />
-                        </motion.div>
-                    ))}
-                </motion.div>
-
+        <section className="py-20 border-t border-white/5">
+            <div className="max-w-7xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="text-center mt-12"
+                    transition={{ duration: 0.6 }}
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4"
                 >
-                    <Link
-                        href="/gallery"
-                        className="inline-flex items-center gap-2 px-8 py-3 border border-cyber-cyan/40 text-cyber-cyan font-tech text-sm uppercase tracking-widest hover:bg-cyber-cyan/10 transition-all duration-300 rounded-sm"
-                    >
-                        View Full Gallery
-                        <span className="text-lg">→</span>
+                    <div>
+                        <p className="text-white/20 font-tech text-[10px] tracking-[0.3em] uppercase mb-3">Gallery</p>
+                        <h2 className="text-2xl md:text-3xl font-black text-white font-display uppercase tracking-tight">
+                            From the Lab
+                        </h2>
+                    </div>
+                    <Link href="/gallery" className="group inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs uppercase tracking-widest font-tech transition-colors">
+                        Full Gallery <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </motion.div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {galleryItems.map((item, idx) => (
+                        <motion.div
+                            key={item.id}
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.08 }}
+                        >
+                            <GalleryCard item={item} />
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     );

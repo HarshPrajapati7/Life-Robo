@@ -17,7 +17,7 @@ function MiniScene({ simId }: { simId: SimulationType }) {
       case 'mars': return '#d14e00'; // Deep Orange
       case 'earth': return '#10b981'; // Emerald Green
       case 'moon': return '#64748b'; // Slate Blue-Grey
-      case 'humanoid': return '#111111'; // Pink
+      case 'humanoid': return '#00ff9d'; // Green
       default: return '#00f3ff';
     }
   }, [simId]);

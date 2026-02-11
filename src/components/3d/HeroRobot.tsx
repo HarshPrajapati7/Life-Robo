@@ -17,12 +17,17 @@ function SceneReadyTracker() {
   return null;
 }
 
-function HeroModel() {
+function HeroModel({ onJump }: { onJump?: () => void }) {
   const group = useRef<THREE.Group>(null);
   const { scene, animations } = useGLTF("/robot_animated.glb");
 
   // Clone so it doesn't conflict with other instances using the same GLB
   const clonedScene = useMemo(() => SkeletonUtils.clone(scene), [scene]);
+
+  const onJumpRef = useRef(onJump);
+  useEffect(() => {
+    onJumpRef.current = onJump;
+  }, [onJump]);
 
   // Style materials
   useLayoutEffect(() => {
@@ -73,10 +78,15 @@ function HeroModel() {
       action.setLoop(THREE.LoopOnce, 1);
       action.clampWhenFinished = true;
       action.reset().fadeIn(0.3).play();
+
+      // Trigger jump callback for logo interaction
+      if (name.toLowerCase() === "jump") {
+        setTimeout(() => onJumpRef.current?.(), 200);
+      }
     };
 
     const onFinished = () => {
-      timeoutId = setTimeout(playRandom, 1000);
+      timeoutId = setTimeout(playRandom, 1500);
     };
 
     mixer.addEventListener("finished", onFinished);
@@ -109,7 +119,7 @@ function HeroModel() {
   );
 }
 
-export default function HeroRobot() {
+export default function HeroRobot({ onJump }: { onJump?: () => void }) {
   return (
     <div className="w-full h-full">
       <Canvas dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }} onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}>
@@ -126,7 +136,7 @@ export default function HeroRobot() {
 
           {/* Model at y:-1 matching playground */}
           <group position={[0, 0.5, 0]}>
-            <HeroModel />
+            <HeroModel onJump={onJump} />
           </group>
 
           <Environment preset="city" background={false} />
