@@ -1,5 +1,6 @@
 
 import NextLink from "next/link";
+import Image from "next/image";
 import { Calendar, ChevronRight } from "lucide-react";
 
 interface EventData {
@@ -29,11 +30,11 @@ export default function EventCard({ event, index, onViewDetails, isPreview = fal
             bg: 'bg-cyber-cyan',
             bg20: 'bg-cyber-cyan/20'
         },
-        'cyber-pink': {
-            border: 'border-cyber-pink',
-            text: 'text-cyber-pink',
-            bg: 'bg-cyber-pink',
-            bg20: 'bg-cyber-pink/20'
+        'cyber-green': {
+            border: 'border-cyber-green',
+            text: 'text-cyber-green',
+            bg: 'bg-cyber-green',
+            bg20: 'bg-cyber-green/20'
         },
         'cyber-yellow': {
             border: 'border-cyber-yellow',
@@ -52,7 +53,15 @@ export default function EventCard({ event, index, onViewDetails, isPreview = fal
             <div className="w-full lg:w-1/2 relative">
                 <div className={`absolute -inset-4 ${colors.bg20} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 <div className="relative h-[250px] md:h-[300px] w-full border border-white/10 glass-panel overflow-hidden">
-                     <div className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${event.image}')` }} />
+                     <div className="w-full h-full transition-transform duration-700 group-hover:scale-110 relative">
+                       <Image
+                         src={event.image}
+                         alt={event.title}
+                         fill
+                         sizes="(max-width: 1024px) 100vw, 50vw"
+                         className="object-cover"
+                       />
+                     </div>
                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                 </div>
                 

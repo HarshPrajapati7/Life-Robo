@@ -6,10 +6,10 @@ import Navbar from "./Navbar";
 export default function NavbarWrapper() {
   const pathname = usePathname();
   
-  // Hide navbar on simulation pages
-  const isSimulationPage = pathname.startsWith("/playground/") && pathname.split("/").length > 2;
+  // Hide navbar on simulation pages and IDE
+  const shouldHideNavbar = (pathname.startsWith("/playground/") && pathname.split("/").length > 2) || pathname.startsWith("/ide");
 
-  if (isSimulationPage) return null;
+  if (shouldHideNavbar) return null;
 
   return <Navbar />;
 }

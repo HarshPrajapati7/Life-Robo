@@ -1,116 +1,93 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { SIMULATIONS, Simulation } from "@/lib/simulations";
-import SimulationCard from "@/components/ui/SimulationCard";
+import { Code, Zap, Box, ArrowRight } from "lucide-react";
+import Link from "next/link";
+
+const tools = [
+  {
+    title: "3D Simulations",
+    description: "Drive rovers and control humanoid robots in your browser.",
+    icon: Box,
+    href: "/playground/simulations",
+    status: "Active",
+    enabled: true,
+  },
+  {
+    title: "Code Editor",
+    description: "Write, compile, and run C/C++ code with built-in terminal.",
+    icon: Code,
+    href: "/ide",
+    status: "Active",
+    enabled: true,
+  },
+  {
+    title: "Electronics",
+    description: "Drag-and-drop circuit builder with LEDs, motors, and microcontrollers.",
+    icon: Zap,
+    href: "#",
+    status: "Coming Soon",
+    enabled: false,
+  },
+];
 
 export default function PlaygroundPage() {
-  const router = useRouter();
-  const [selectedSim, setSelectedSim] = useState<Simulation>(SIMULATIONS.find(s => s.id === 'humanoid') || SIMULATIONS[0]);
-  const [currentTime, setCurrentTime] = useState<string>("");
-
-  const startSimulation = useCallback((sim: Simulation) => {
-    router.push(`/playground/${sim.id}`, { scroll: false });
-  }, [router]);
-
-  useEffect(() => {
-    setCurrentTime(new Date().toLocaleTimeString());
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        startSimulation(selectedSim);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedSim, startSimulation]);
-
-  const rovers = SIMULATIONS.filter(s => s.id !== 'humanoid');
-  const humanoids = SIMULATIONS.filter(s => s.id === 'humanoid');
-
   return (
-    <main className="min-h-[calc(100vh-80px)] w-full bg-[#02040a] relative overflow-hidden flex flex-col items-center font-tech">
-      <motion.div 
-        key="dashboard"
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="flex-grow flex flex-col gap-8 max-w-6xl mx-auto w-full px-6 py-12 relative z-10"
-      >
-        <div className="flex flex-col md:flex-row justify-between items-end mb-4 border-b border-white/5 pb-8">
-          <div>
-            <span className="text-cyber-primary text-[10px] font-black uppercase tracking-[0.4em] mb-2 block">SIM_ARENA</span>
-            <h1 className="text-4xl font-display font-black text-white uppercase tracking-tight">
-              SIMULATION SELECT
-            </h1>
-          </div>
-        </div>
+    <main className="min-h-screen w-full bg-[#060608]/85 flex flex-col items-center justify-center px-6 py-24">
+      <div className="w-full max-w-2xl">
 
-        <div className="space-y-8">
-            <div>
-                <h2 className="text-cyber-accent text-xs font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-cyber-accent" /> Humanoid Labs
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {humanoids.map((sim) => (
-                        <SimulationCard 
-                            key={sim.id} 
-                            sim={sim} 
-                            isActive={selectedSim.id === sim.id}
-                            onSelect={() => setSelectedSim(sim)}
-                            onStart={() => startSimulation(sim)}
-                        />
-                    ))}
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-3xl md:text-4xl font-display font-black text-white uppercase tracking-tight mb-2">
+            Playground
+          </h1>
+          <p className="text-white/25 text-sm">
+            Interactive tools for learning robotics.
+          </p>
+        </motion.div>
+
+        {/* Tool Cards — stacked with 1px gaps */}
+        <div className="flex flex-col gap-px bg-white/5 border border-white/5">
+          {tools.map((tool, i) => {
+            const inner = (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: i * 0.05 }}
+                className={`bg-black/40 px-6 py-5 flex items-center gap-5 transition-colors ${tool.enabled ? 'hover:bg-white/[0.02] group' : 'cursor-default'}`}
+              >
+                <tool.icon size={20} className={tool.enabled ? "text-white/25 shrink-0" : "text-white/10 shrink-0"} />
+                <div className="flex-1 min-w-0">
+                  <h3 className={`text-sm font-display font-bold uppercase tracking-wider ${tool.enabled ? 'text-white' : 'text-white/25'}`}>
+                    {tool.title}
+                  </h3>
+                  <p className={`text-xs mt-0.5 truncate ${tool.enabled ? 'text-white/25' : 'text-white/10'}`}>
+                    {tool.description}
+                  </p>
                 </div>
-            </div>
-
-            <div>
-                <h2 className="text-cyber-primary text-xs font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-cyber-primary" /> Rover Missions
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {rovers.map((sim) => (
-                        <SimulationCard 
-                            key={sim.id} 
-                            sim={sim} 
-                            isActive={selectedSim.id === sim.id}
-                            onSelect={() => setSelectedSim(sim)}
-                            onStart={() => startSimulation(sim)}
-                        />
-                    ))}
+                <div className="shrink-0 flex items-center gap-2">
+                  <span className={`text-[9px] uppercase tracking-widest font-bold font-tech ${tool.enabled ? 'text-white/30' : 'text-white/10'}`}>{tool.status}</span>
+                  {tool.enabled && (
+                    <ArrowRight size={14} className="text-white/15 group-hover:text-white/40 group-hover:translate-x-0.5 transition-all" />
+                  )}
                 </div>
-            </div>
-        </div>
+              </motion.div>
+            );
 
-        <div className="mt-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-           <div className="flex items-center gap-6">
-              <DashboardMiniStat label="BASE" value="INDIA_HO" />
-              <DashboardMiniStat label="LINK" value="ACTIVE" />
-              <DashboardMiniStat label="TIME" value={currentTime || "--:--:--"} />
-           </div>
-           <div className="text-[10px] font-tech text-white/20 uppercase tracking-[0.2em]">
-             Select a simulation to begin operations.
-           </div>
+            return tool.enabled ? (
+              <Link key={tool.title} href={tool.href}>
+                {inner}
+              </Link>
+            ) : (
+              <div key={tool.title}>{inner}</div>
+            );
+          })}
         </div>
-      </motion.div>
-
-      <div className="absolute inset-0 -z-0 opacity-10 bg-cyber-grid pointer-events-none" />
+      </div>
     </main>
-  );
-}
-
-function DashboardMiniStat({ label, value }: { label: string, value: string }) {
-  return (
-    <div className="flex flex-col">
-      <span className="text-[9px] font-bold text-white/20 uppercase tracking-tighter">{label}</span>
-      <span className="text-[11px] font-bold text-white/60 tracking-widest uppercase">{value}</span>
-    </div>
   );
 }

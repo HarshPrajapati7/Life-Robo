@@ -109,6 +109,19 @@ export default function Rover({
     wheelSpin: 0,
   });
 
+  // Reset state when simulation changes
+  useMemo(() => {
+    phys.current.initialized = false;
+    phys.current.speed = 0;
+    phys.current.verticalVel = 0;
+    // Reset telemetry too
+    telemetry.x = 0;
+    telemetry.y = 0;
+    telemetry.z = 0;
+    telemetry.speed = 0;
+    telemetry.targetReached = false;
+  }, [simulationId]);
+
   useFrame((_state, delta) => {
     if (!groupRef.current) return;
 

@@ -3,7 +3,7 @@
 import { Canvas, useFrame, GroupProps } from "@react-three/fiber";
 import { useRef, useMemo, Suspense } from "react";
 import * as THREE from "three";
-import { Float, Line, Sphere, Stars, Sparkles } from "@react-three/drei";
+import { Float, Line, Sphere } from "@react-three/drei";
 
 function SceneReadyTracker() {
   const rendered = useRef(false);
@@ -67,7 +67,7 @@ function Electron({ radius = 2.75, speed = 6, ...props }: ElectronProps) {
 export default function HeroScene() {
   return (
     <div className="relative w-full h-full min-h-[400px] md:min-h-[500px]">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 45 }} className="rounded-2xl overflow-hidden bg-black/40 border border-white/5 shadow-2xl">
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 45 }} style={{ width: '100%', height: '100%' }} className="rounded-2xl overflow-hidden bg-black/40 border border-white/5 shadow-2xl">
         <SceneReadyTracker />
         <Suspense fallback={null}>
           <Float speed={4} rotationIntensity={1} floatIntensity={1}>
@@ -83,8 +83,6 @@ export default function HeroScene() {
             </group>
           </Float>
           
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-          <Sparkles count={80} scale={10} size={1} speed={0.4} opacity={0.4} color="#00f3ff" />
         </Suspense>
         <fog attach="fog" args={["#0d0d0d", 5, 20]} />
       </Canvas>
