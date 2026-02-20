@@ -4,28 +4,11 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import EventCard from "@/components/ui/EventCard";
-
-const events = [
-    {
-        id: 1,
-        title: "Roboeminence",
-        category: "Competition",
-        date: "Upcoming",
-        description: "The ultimate robotics showdown — line follower, maze solver, and robo-soccer competitions.",
-        image: "/images/events/Roboeminence.jpg",
-    },
-    {
-        id: 2,
-        title: "Lecture Series",
-        category: "Workshop",
-        date: "Completed",
-        description: "8-day intensive covering foundational robotics principles to advanced applications.",
-        image: "/images/events/Workshop.jpg",
-        color: "cyber-green",
-    }
-];
+import { events } from "@/lib/events-data";
 
 export default function EventsPreview() {
+    const previewEvents = events.slice(0, 2);
+
     return (
         <section className="py-20 border-t border-white/5">
             <div className="max-w-7xl mx-auto px-6">
@@ -48,9 +31,9 @@ export default function EventsPreview() {
                 </motion.div>
 
                 <div className="space-y-8">
-                    {events.map((event, index) => (
+                    {previewEvents.map((event, index) => (
                         <motion.div
-                            key={event.id}
+                            key={event.title}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}

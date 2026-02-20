@@ -1,7 +1,7 @@
-
 import NextLink from "next/link";
 import Image from "next/image";
 import { Calendar, ChevronRight } from "lucide-react";
+import { slugify } from "@/lib/events-data";
 
 interface EventData {
     title: string;
@@ -90,9 +90,9 @@ export default function EventCard({ event, index, onViewDetails, isPreview = fal
                 
                 <div className="pt-2 flex items-center gap-6">
                     {isPreview ? (
-                         <NextLink href="/events">
+                         <NextLink href={`/events/${slugify(event.title)}`}>
                             <button className={`text-white hover:${colors.text} transition-colors font-display font-bold uppercase tracking-widest text-sm flex items-center gap-2`}>
-                                View Logs <ChevronRight size={16} />
+                                Read More <ChevronRight size={16} />
                             </button>
                         </NextLink>
                     ) : (
