@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..700&display=swap');
+
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
@@ -1467,3 +1469,43 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* ──── Typography Refinement ──── */
+h1, h2, h3, h4, h5 {
+  font-family: 'Space Grotesk', var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+body, p, span, input, textarea, button, a {
+  font-family: 'Inter', var(--font-geist-sans), sans-serif;
+}
+
+/* ──── Smooth Scroll Anchor Offset ──── */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* ──── Selection Color ──── */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+/* ──── Scrollbar ──── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #06060c; }
+::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.6); }

@@ -6,7 +6,8 @@ import StaggeredMenu, { type StaggeredMenuItem, type StaggeredSocialItem } from 
 const menuItems: StaggeredMenuItem[] = [
   { label: "Home", ariaLabel: "Go to home section", link: "/#top" },
   { label: "About", ariaLabel: "Go to about section", link: "/#about" },
-  { label: "Events", ariaLabel: "Go to events section", link: "/#events" },
+  { label: "Events", ariaLabel: "View all events and workshops", link: "/events" },
+  { label: "Pitch Idea", ariaLabel: "Pitch your project idea", link: "/my-idea" },
   { label: "Gallery", ariaLabel: "Go to gallery section", link: "/#gallery" },
   { label: "Team", ariaLabel: "Go to team section", link: "/#team" },
   { label: "Contact", ariaLabel: "Go to contact section", link: "/#contact" },
